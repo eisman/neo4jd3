@@ -93,6 +93,7 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
 ## What's next?
 
 * More than one relationship between two nodes.
+* JavaScript API.
 
 ## Copyright and license
 
