@@ -1,0 +1,24 @@
+{
+  "stats": {
+    "tests": 2,
+    "passes": 0,
+    "failures": 2,
+    "duration": 2
+  },
+  "failures": [
+    {
+      "title": "Neo4jD3 Unit Tests describe should{}",
+      "fullTitle": "Neo4jD3 Unit Tests",
+      "duration": 2,
+      "error": "expected false to be true"
+    },
+    {
+      "title": "Neo4jD3 Unit Tests describe should{}",
+      "fullTitle": "Neo4jD3 Unit Tests",
+      "duration": 0,
+      "error": "expected false to be true"
+    }
+  ],
+  "passes": [],
+  "skipped": []
+}
