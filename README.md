@@ -90,7 +90,7 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
 });
 ```
 
-## What's next?
+## What's coming?
 
 * More than one relationship between two nodes.
 * JavaScript API.
