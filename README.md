@@ -7,7 +7,7 @@
 * Neo4j's JSON graph format.
 * Force simulation.
 * Info panel that shows nodes and relationships information on hover.
-* Click callbacks.
+* Double click callbacks.
 * Custom node colors by node type.
 * [Font Awesome](http://fontawesome.io/) icon nodes.
 * Relationship auto-orientation.
