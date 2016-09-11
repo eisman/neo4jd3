@@ -14,10 +14,22 @@
 * Zoom, pan, auto fit.
 * Compatible with D3.js v4.
 
-## API
+## Running
+
+Clone the repository, install all dependencies, build and serve the project:
+
+```bash
+> git clone https://github.com/eisman/neo4jd3.git
+> npm install
+> gulp
+```
+
+Open `http://localhost:8080` in your favourite browser.
+
+## Documentation
 
 ```javascript
-new neo4jd3(selector, options);
+var neo4jd3 = new Neo4jd3('.selector', options);
 ```
 
 ### Options
@@ -68,21 +80,6 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
     nodeRadius: 25,
     onNodeDoubleClick: function(node) {
         console.log('double click on node: ' + JSON.stringify(node));
-
-        switch(node.labels[0]) {
-            case 'Icons':
-                // TODO
-                neo4jd3.icons(!neo4jd3.icons());
-                break;
-            case 'ZoomIn':
-                // TODO
-                neo4jd3.zoomIn();
-                break;
-            case 'ZoomOut':
-                // TODO
-                neo4jd3.zoomOut();
-                break;
-        }
     },
     onRelationshipDoubleClick: function(relationship) {
         console.log('double click on relationship: ' + JSON.stringify(relationship));
