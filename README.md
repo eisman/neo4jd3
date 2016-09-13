@@ -11,7 +11,7 @@
 * Info panel that shows nodes and relationships information on hover.
 * Double click callbacks.
 * Custom node colors by node type.
-* [Font Awesome](http://fontawesome.io/) icon nodes.
+* Text or [Font Awesome](http://fontawesome.io/) icon nodes.
 * Relationship auto-orientation.
 * Zoom, pan, auto fit.
 * Compatible with D3.js v4.
@@ -39,7 +39,7 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | **dataUrl** | *string* | URL of the endpoint that serves the graph in JSON format. |
-| **icons** | *object* | Map node labels to [Font Awesome icons](http://fontawesome.io/icons).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Address': 'home',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'calendar-o',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'EncryptedPassword': 'asterisk',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'NameSignature': 'pencil',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Phone': 'phone',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Player': 'user',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'SecurityChallengeAnswer': 'comment'`<br>`}`. |
+| **icons** | *object* | Map node labels to [Font Awesome icons](http://fontawesome.io/icons).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Address': 'home',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'calendar-o',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Password': 'asterisk',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Phone': 'phone',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'User': 'user'`<br>`}`. |
 | **infoPanel** | *boolean* | Show the information panel: `true`, `false`. Default: `true`. |
 | **minCollision** | *int* | Minimum distance between nodes. Default: 2 * *nodeRadius*. |
 | **nodeRadius** | *int* | Radius of nodes. Default: 25. |
@@ -94,6 +94,7 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
 
 * More than one relationship between two nodes.
 * JavaScript API.
+* Testing.
 
 ## Copyright and license
 
