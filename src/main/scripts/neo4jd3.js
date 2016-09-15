@@ -117,6 +117,13 @@ function Neo4jD3(_selector, _options){
                   .attr('class', function(d) {
                       return 'node';
                   })
+                  .on('click', function(d) {
+                      d.fx = d.fy = null;
+
+                      if (typeof options.onNodeClick === 'function') {
+                          options.onNodeClick(d);
+                      }
+                  })
                   .on('dblclick', function(d) {
                       if (typeof options.onNodeDoubleClick === 'function') {
                           options.onNodeDoubleClick(d);
@@ -126,10 +133,18 @@ function Neo4jD3(_selector, _options){
                       if (info) {
                           updateInfo(d);
                       }
+
+                      if (typeof options.onNodeMouseEnter === 'function') {
+                          options.onNodeMouseEnter(d);
+                      }
                   })
                   .on('mouseleave', function(d) {
                       if (info) {
                           clearInfo(d);
+                      }
+
+                      if (typeof options.onNodeMouseLeave === 'function') {
+                          options.onNodeMouseLeave(d);
                       }
                   })
                   .call(d3.drag()
@@ -342,7 +357,9 @@ function Neo4jD3(_selector, _options){
             simulation.alphaTarget(0);
         }
 
-        d.fx = d.fy = null;
+        if (typeof options.onNodeDragEnd === 'function') {
+            options.onNodeDragEnd(d);
+        }
     }
 
     function dragged(d) {
@@ -357,6 +374,10 @@ function Neo4jD3(_selector, _options){
 
         d.fx = d.x;
         d.fy = d.y;
+
+        if (typeof options.onNodeDragStart === 'function') {
+            options.onNodeDragStart(d);
+        }
     }
 
     function extend(obj1, obj2) {

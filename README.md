@@ -12,6 +12,7 @@
 * Double click callbacks.
 * Custom node colors by node type.
 * Text or [Font Awesome](http://fontawesome.io/) icon nodes.
+* Sticky nodes (drag to stick, single click to unstick).
 * Relationship auto-orientation.
 * Zoom, pan, auto fit.
 * Compatible with D3.js v4.
@@ -43,7 +44,12 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 | **infoPanel** | *boolean* | Show the information panel: `true`, `false`. Default: `true`. |
 | **minCollision** | *int* | Minimum distance between nodes. Default: 2 * *nodeRadius*. |
 | **nodeRadius** | *int* | Radius of nodes. Default: 25. |
+| **onNodeClick** | *function* | Callback function to be executed when the user clicks a node. |
 | **onNodeDoubleClick** | *function* | Callback function to be executed when the user double clicks a node. |
+| **onNodeDragEnd** | *function* | Callback function to be executed when the user finishes dragging a node. |
+| **onNodeDragStart** | *function* | Callback function to be executed when the user starts dragging a node. |
+| **onNodeMouseEnter** | *function* | Callback function to be executed when the mouse enters a node. |
+| **onNodeMouseLeave** | *function* | Callback function to be executed when the mouse leaves a node. |
 | **onRelationshipDoubleClick** | *function* | Callback function to be executed when the user double clicks a relationship. |
 | **zoomFit** | *boolean* | Adjust the graph to the container once it has been loaded: `true`, `false`. Default: `false`. |
 
