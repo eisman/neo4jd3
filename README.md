@@ -54,7 +54,7 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 | **onRelationshipDoubleClick** | *function* | Callback function to be executed when the user double clicks a relationship. |
 | **zoomFit** | *boolean* | Adjust the graph to the container once it has been loaded: `true`, `false`. Default: `false`. |
 
-### API
+### JavaScript API
 
 | Function | Description |
 | -------- | ----------- |
