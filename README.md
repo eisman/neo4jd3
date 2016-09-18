@@ -13,6 +13,7 @@
 * Custom node colors by node type.
 * Text or [Font Awesome](http://fontawesome.io/) icon nodes.
 * Sticky nodes (drag to stick, single click to unstick).
+* Dynamic graph update (e.g. double click a node to expand it).
 * Relationship auto-orientation.
 * Zoom, pan, auto fit.
 * Compatible with D3.js v4.
@@ -71,34 +72,39 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 
 ```
 {
-    "nodes": [{
-        "id": "1",
-        "labels": ["User"],
-        "properties": {
-            "userId": "eisman"
-        }
-    }, {
-        "id": "8",
-        "labels": ["Project"],
-        "properties": {
-            "name": "neo4jd3",
-            "title": "neo4jd3.js",
-            "description": "Neo4j graph visualization using D3.js.",
-            "url": "https://eisman.github.io/neo4jd3"
-        }
-    }],
-    "relationships": [{
-        "id": "7",
-        "type": "DEVELOPES",
-        "startNode": "1",
-        "endNode": "8",
-        "properties": {
-            "from": 1470002400000
+    "nodes": [
+        {
+            "id": "1",
+            "labels": ["User"],
+            "properties": {
+                "userId": "eisman"
+            }
         },
-        "source": "1",
-        "target": "8",
-        "linknum": 1
-    }]
+        {
+            "id": "8",
+            "labels": ["Project"],
+            "properties": {
+                "name": "neo4jd3",
+                "title": "neo4jd3.js",
+                "description": "Neo4j graph visualization using D3.js.",
+                "url": "https://eisman.github.io/neo4jd3"
+            }
+        }
+    ],
+    "relationships": [
+        {
+            "id": "7",
+            "type": "DEVELOPES",
+            "startNode": "1",
+            "endNode": "8",
+            "properties": {
+                "from": 1470002400000
+            },
+            "source": "1",
+            "target": "8",
+            "linknum": 1
+        }
+    ]
 }
 ```
 
@@ -106,38 +112,47 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 
 ```
 {
-    "results": [{
-        "columns": ["user", "entity"],
-        "data": [{
-            "graph": {
-                "nodes": [{
-                    "id": "1",
-                    "labels": ["User"],
-                    "properties": {
-                        "userId": "eisman"
+    "results": [
+        {
+            "columns": ["user", "entity"],
+            "data": [
+                {
+                    "graph": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "labels": ["User"],
+                                "properties": {
+                                    "userId": "eisman"
+                                }
+                            },
+                            {
+                                "id": "8",
+                                "labels": ["Project"],
+                                "properties": {
+                                    "name": "neo4jd3",
+                                    "title": "neo4jd3.js",
+                                    "description": "Neo4j graph visualization using D3.js.",
+                                    "url": "https://eisman.github.io/neo4jd3"
+                                }
+                            }
+                        ],
+                        "relationships": [
+                            {
+                                "id": "7",
+                                "type": "DEVELOPES",
+                                "startNode": "1",
+                                "endNode": "8",
+                                "properties": {
+                                    "from": 1470002400000
+                                }
+                            }
+                        ]
                     }
-                }, {
-                    "id": "8",
-                    "labels": ["Project"],
-                    "properties": {
-                        "name": "neo4jd3",
-                        "title": "neo4jd3.js",
-                        "description": "Neo4j graph visualization using D3.js.",
-                        "url": "https://eisman.github.io/neo4jd3"
-                    }
-                }],
-                "relationships": [{
-                    "id": "7",
-                    "type": "DEVELOPES",
-                    "startNode": "1",
-                    "endNode": "8",
-                    "properties": {
-                        "from": 1470002400000
-                    }
-                }]
-            }
-        }]
-    }],
+                }
+            ]
+        }
+    ],
     "errors": []
 }
 ```
@@ -176,10 +191,9 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
     neo4jDataUrl: 'json/neo4jData.json',
     nodeRadius: 25,
     onNodeDoubleClick: function(node) {
-        console.log('double click on node: ' + JSON.stringify(node));
-    },
-    onRelationshipDoubleClick: function(relationship) {
-        console.log('double click on relationship: ' + JSON.stringify(relationship));
+        var maxNodes = 5,
+            data = neo4jd3.randomD3Data(node, maxNodes);
+        neo4jd3.updateWithD3Data(data);
     },
     zoomFit: true
 });
@@ -188,6 +202,7 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
 ## What's coming?
 
 * More than one relationship between two nodes.
+* Performance optimization.
 * Testing.
 
 ## Copyright and license
