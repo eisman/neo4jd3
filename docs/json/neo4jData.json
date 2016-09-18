@@ -173,7 +173,7 @@
                 }],
                 "relationships": [{
                     "id": "1",
-                    "type": "CURRENT_PHONE_NUMBER",
+                    "type": "HAS_PHONE_NUMBER",
                     "startNode": "1",
                     "endNode": "2",
                     "properties": {
@@ -181,7 +181,7 @@
                     }
                 }, {
                     "id": "2",
-                    "type": "CURRENT_ADDRESS",
+                    "type": "HAS_ADDRESS",
                     "startNode": "1",
                     "endNode": "3",
                     "properties": {
@@ -189,7 +189,7 @@
                     }
                 }, {
                     "id": "3",
-                    "type": "CURRENT_BIRTH_DATE",
+                    "type": "HAS_BIRTH_DATE",
                     "startNode": "1",
                     "endNode": "4",
                     "properties": {
@@ -197,7 +197,7 @@
                     }
                 }, {
                     "id": "4",
-                    "type": "CURRENT_PASSWORD",
+                    "type": "HAS_PASSWORD",
                     "startNode": "1",
                     "endNode": "5",
                     "properties": {
@@ -205,7 +205,7 @@
                     }
                 }, {
                     "id": "5",
-                    "type": "CURRENT_SIGNATURE",
+                    "type": "HAS_SIGNATURE",
                     "startNode": "1",
                     "endNode": "6",
                     "properties": {
@@ -213,7 +213,7 @@
                     }
                 }, {
                     "id": "6",
-                    "type": "CURRENT_SECURITY_ANSWER",
+                    "type": "HAS_SECURITY_ANSWER",
                     "startNode": "1",
                     "endNode": "7",
                     "properties": {

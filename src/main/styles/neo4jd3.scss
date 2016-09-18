@@ -48,6 +48,12 @@ body {
         stroke: #6ac6ff;
         stroke-width: 8px;
     }
+
+    .text {
+        &.icon {
+            font-family: FontAwesome;
+        }
+    }
 }
 
 .node.selected .ring,
@@ -55,12 +61,6 @@ body {
     -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
     filter: alpha(opacity=30);
     opacity: .3;
-}
-
-.node-text {
-    &.node-icon {
-        font-family: FontAwesome;
-    }
 }
 
 .relationship {

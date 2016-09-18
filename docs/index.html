@@ -24,11 +24,10 @@
 
         <!-- Scripts -->
         <script src="js/d3.min.js"></script>
-        <script src="js/neo4jd3.min.js"></script>
+        <script src="js/neo4jd3.js"></script>
         <script type="text/javascript">
             function init() {
                 var neo4jd3 = new Neo4jd3('#neo4jd3', {
-                    dataUrl: 'json/data.json',
                     icons: {
                         'Address': 'home',
                         'Api': 'gear',
@@ -54,19 +53,14 @@
                         'zoomOut': 'search-minus'
                     },
                     minCollision: 60,
+                    neo4jDataUrl: 'json/neo4jData.json',
                     nodeRadius: 25,
                     onNodeDoubleClick: function(node) {
-                        console.log('double click on node: ' + JSON.stringify(node));
-
                         switch(node.labels[0]) {
-                            case 'Icons':
-                                neo4jd3.icons(!neo4jd3.icons());
-                                break;
-                            case 'ZoomIn':
-                                neo4jd3.zoomIn();
-                                break;
-                            case 'ZoomOut':
-                                neo4jd3.zoomOut();
+                            default:
+                                var maxNodes = 5,
+                                    data = neo4jd3.randomD3Data(node, maxNodes);
+                                neo4jd3.updateWithD3Data(data);
                                 break;
                         }
                     },
