@@ -28,6 +28,17 @@
         <script type="text/javascript">
             function init() {
                 var neo4jd3 = new Neo4jd3('#neo4jd3', {
+                    highlight: [
+                        {
+                            class: 'Project',
+                            property: 'name',
+                            value: 'neo4jd3'
+                        }, {
+                            class: 'User',
+                            property: 'userId',
+                            value: 'eisman'
+                        }
+                    ],
                     icons: {
                         'Address': 'home',
                         'Api': 'gear',

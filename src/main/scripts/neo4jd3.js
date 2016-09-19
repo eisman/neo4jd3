@@ -10,6 +10,7 @@ function Neo4jD3(_selector, _options) {
         options = {
             arrowSize: 4,
             colors: colors(),
+            highlight: undefined,
             iconMap: fontAwesomeIcons(),
             icons: undefined,
             infoPanel: true,
@@ -92,7 +93,23 @@ function Neo4jD3(_selector, _options) {
     function appendNode() {
         return node.enter()
                    .append('g')
-                   .attr('class', 'node')
+                   .attr('class', function(d) {
+                       var highlight, i,
+                           classes = 'node';
+
+                       if (options.highlight) {
+                           for (i = 0; i < options.highlight.length; i++) {
+                               highlight = options.highlight[i];
+
+                               if (d.labels[0] === highlight.class && d.properties[highlight.property] === highlight.value) {
+                                   classes += ' node-highlighted';
+                                   break;
+                               }
+                           }
+                       }
+
+                       return classes;
+                   })
                    .on('click', function(d) {
                        d.fx = d.fy = null;
 

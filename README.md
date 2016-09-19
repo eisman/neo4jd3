@@ -14,6 +14,7 @@
 * Text or [Font Awesome](http://fontawesome.io/) icon nodes.
 * Sticky nodes (drag to stick, single click to unstick).
 * Dynamic graph update (e.g. double click a node to expand it).
+* Highlight nodes on init.
 * Relationship auto-orientation.
 * Zoom, pan, auto fit.
 * Compatible with D3.js v4.
@@ -40,6 +41,7 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
+| **highlight** | *array* | Highlight several nodes of the graph.<br>Example:<br>`[`<br>&nbsp;&nbsp;&nbsp;&nbsp;`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`class: 'Project',`<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`property: 'name',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`value: 'neo4jd3'`<br>&nbsp;&nbsp;&nbsp;&nbsp;`}`<br>`]` |
 | **icons** | *object* | Map node labels to [Font Awesome icons](http://fontawesome.io/icons).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Address': 'home',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'calendar-o',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Password': 'asterisk',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Phone': 'phone',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'User': 'user'`<br>`}`. |
 | **infoPanel** | *boolean* | Show the information panel: `true`, `false`. Default: `true`. |
 | **minCollision** | *int* | Minimum distance between nodes. Default: 2 * *nodeRadius*. |
@@ -164,6 +166,17 @@ Live example @ [https://eisman.github.io/neo4jd3/](https://eisman.github.io/neo4
 
 ```javascript
 var neo4jd3 = new Neo4jd3('#neo4jd3', {
+    highlight: [
+        {
+            class: 'Project',
+            property: 'name',
+            value: 'neo4jd3'
+        }, {
+            class: 'User',
+            property: 'userId',
+            value: 'eisman'
+        }
+    ],
     icons: {
         'Address': 'home',
         'Api': 'gear',

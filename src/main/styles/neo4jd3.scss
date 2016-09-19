@@ -32,6 +32,15 @@ body {
 }
 
 .node {
+    &.node-highlighted {
+        .ring {
+            -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
+            filter: alpha(opacity=30);
+            opacity: .3;
+            stroke: #888;
+        }
+    }
+
     .outline {
         cursor: pointer;
         fill: rgb(165, 171, 182);
