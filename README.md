@@ -43,7 +43,8 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 | **icons** | *object* | Map node labels to [Font Awesome icons](http://fontawesome.io/icons).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Address': 'home',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'calendar-o',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Password': 'asterisk',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Phone': 'phone',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'User': 'user'`<br>`}`. |
 | **infoPanel** | *boolean* | Show the information panel: `true`, `false`. Default: `true`. |
 | **minCollision** | *int* | Minimum distance between nodes. Default: 2 * *nodeRadius*. |
-| **neo4jDataUrl** | *string* | URL of the endpoint that serves the graph in [Neo4j data format](#neo4j-data-format). |
+| **neo4jData** | *object* | Graph data in [Neo4j data format](#neo4j-data-format). |
+| **neo4jDataUrl** | *string* | URL of the endpoint that serves the graph data in [Neo4j data format](#neo4j-data-format). |
 | **nodeRadius** | *int* | Radius of nodes. Default: 25. |
 | **onNodeClick** | *function* | Callback function to be executed when the user clicks a node. |
 | **onNodeDoubleClick** | *function* | Callback function to be executed when the user double clicks a node. |

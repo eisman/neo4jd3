@@ -14,6 +14,8 @@ function Neo4jD3(_selector, _options) {
             icons: undefined,
             infoPanel: true,
             minCollision: undefined,
+            neo4jData: undefined,
+            neo4jDataUrl: undefined,
             nodeRadius: 25,
             relationshipColor: '#a5abb6',
             zoomFit: false
@@ -399,7 +401,13 @@ function Neo4jD3(_selector, _options) {
 
         simulation = initSimulation();
 
-        loadNeo4jData();
+        if (options.neo4jData) {
+            loadNeo4jData(options.neo4jData);
+        } else if (options.neo4jDataUrl) {
+            loadNeo4jDataFromUrl(options.neo4jDataUrl);
+        } else {
+            console.error('Error: both neo4jData and neo4jDataUrl are empty!');
+        }
     }
 
     function initSimulation() {
@@ -432,7 +440,14 @@ function Neo4jD3(_selector, _options) {
         nodes = [];
         relationships = [];
 
-        d3.json(options.neo4jDataUrl, function(error, data) {
+        updateWithNeo4jData(options.neo4jData);
+    }
+
+    function loadNeo4jDataFromUrl(neo4jDataUrl) {
+        nodes = [];
+        relationships = [];
+
+        d3.json(neo4jDataUrl, function(error, data) {
             if (error) {
                 throw error;
             }
