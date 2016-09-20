@@ -34,8 +34,8 @@ body {
 .node {
     &.node-highlighted {
         .ring {
-            -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=30)';
-            filter: alpha(opacity=30);
+            -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
+            filter: alpha(opacity=50);
             opacity: .3;
             stroke: #888;
         }
