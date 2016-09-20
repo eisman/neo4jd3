@@ -29,7 +29,7 @@ Clone the repository, install all dependencies, build and serve the project:
 > gulp
 ```
 
-Open `http://localhost:8080` in your favourite browser.
+Open `http://localhost:8080` in your favorite browser.
 
 ## Documentation
 
