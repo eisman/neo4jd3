@@ -18,6 +18,23 @@ body {
   padding: 10px;
   position: absolute;
 }
+.neo4jd3-info a {
+  border: 1px solid;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.428571429;
+  margin-left: 5px;
+  margin-top: 5px;
+  padding: 6px 12px;
+}
+.neo4jd3-info a.class {
+  color: white;
+}
+.neo4jd3-info a.property {
+  background-color: #fff;
+  border-color: #ccc;
+  color: #333;
+}
 .neo4jd3-info a.btn {
   margin-left: 5px;
   margin-top: 5px;
@@ -32,8 +49,9 @@ body {
 .node.node-highlighted .ring {
   -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
   filter: alpha(opacity=50);
-  opacity: .3;
+  opacity: .5;
   stroke: #888;
+  stroke-width: 12px;
 }
 .node .outline {
   cursor: pointer;

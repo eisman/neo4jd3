@@ -18,6 +18,26 @@ body {
     padding: 10px;
     position: absolute;
 
+    a {
+        border: 1px solid;
+        display: inline-block;
+        font-size: 14px;
+        line-height: 1.428571429;
+        margin-left: 5px;
+        margin-top: 5px;
+        padding: 6px 12px;
+
+        &.class {
+            color: white;
+        }
+
+        &.property {
+            background-color: #fff;
+            border-color: #ccc;
+            color: #333;
+        }
+    }
+
     a.btn {
         margin-left: 5px;
         margin-top: 5px;
@@ -36,8 +56,9 @@ body {
         .ring {
             -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';
             filter: alpha(opacity=50);
-            opacity: .3;
+            opacity: .5;
             stroke: #888;
+            stroke-width: 12px;
         }
     }
 

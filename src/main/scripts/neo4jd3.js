@@ -64,8 +64,7 @@ function Neo4jD3(_selector, _options) {
         var elem = info.append('a');
 
         elem.attr('href', '#')
-            .attr('class', 'btn ' + cls + ' disabled')
-            .attr('role', 'button')
+            .attr('class', cls)
             .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
 
         if (!value) {
@@ -78,7 +77,7 @@ function Neo4jD3(_selector, _options) {
         }
     }
 
-    function appendInfoElementNode(cls, node) {
+    function appendInfoElementClass(cls, node) {
         appendInfoElement(cls, true, node);
     }
 
@@ -779,15 +778,15 @@ function Neo4jD3(_selector, _options) {
         clearInfo();
 
         if (d.labels) {
-            appendInfoElementNode('info', d.labels[0]);
+            appendInfoElementClass('class', d.labels[0]);
         } else {
-            appendInfoElementRelationship('info', d.type);
+            appendInfoElementRelationship('class', d.type);
         }
 
-        appendInfoElementProperty('btn-default', '&lt;id&gt;', d.id);
+        appendInfoElementProperty('property', '&lt;id&gt;', d.id);
 
         Object.keys(d.properties).forEach(function(property) {
-            appendInfoElementProperty('btn-default', property, JSON.stringify(d.properties[property]));
+            appendInfoElementProperty('property', property, JSON.stringify(d.properties[property]));
         });
     }
 
