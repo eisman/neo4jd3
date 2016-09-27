@@ -2,7 +2,7 @@
 
 [Neo4j](https://github.com/neo4j) graph visualization using [D3.js](https://github.com/d3/d3).
 
-![neo3jd3.js](https://eisman.github.io/neo4jd3/img/neo4jd3.jpg?v=2)
+![neo3jd3.js](https://eisman.github.io/neo4jd3/img/neo4jd3.jpg?v=0.0.5)
 
 ## Features
 
@@ -11,7 +11,7 @@
 * Info panel that shows nodes and relationships information on hover.
 * Double click callbacks.
 * Custom node colors by node type.
-* Text or [Font Awesome](http://fontawesome.io/) icon nodes.
+* Text nodes + [Font Awesome](http://fontawesome.io/) icon nodes + SVG image nodes (e.g. using [Twitter Emoji](https://github.com/twitter/twemoji))).
 * Sticky nodes (drag to stick, single click to unstick).
 * Dynamic graph update (e.g. double click a node to expand it).
 * Highlight nodes on init.
@@ -42,7 +42,8 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 | Parameter | Type | Description |
 | --------- | ---- | ----------- |
 | **highlight** | *array* | Highlight several nodes of the graph.<br>Example:<br>`[`<br>&nbsp;&nbsp;&nbsp;&nbsp;`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`class: 'Project',`<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`property: 'name',`<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`value: 'neo4jd3'`<br>&nbsp;&nbsp;&nbsp;&nbsp;`}`<br>`]` |
-| **icons** | *object* | Map node labels to [Font Awesome icons](http://fontawesome.io/icons).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Address': 'home',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'calendar-o',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Password': 'asterisk',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Phone': 'phone',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'User': 'user'`<br>`}`. |
+| **icons** | *object* | Map node labels to [Font Awesome icons](http://fontawesome.io/icons).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'birthday-cake',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Password': 'lock',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Phone': 'phone',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'User': 'user'`<br>`}`. |
+| **images** | *object* | Map node labels to SVG images (e.g. using [Twitter Emoji](https://github.com/twitter/twemoji)).<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Address': 'img/twemoji/1f3e0.svg',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'BirthDate': 'img/twemoji/1f382.svg',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Password': 'img/twemoji/1f511.svg',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Project': 'img/twemoji/2198.svg',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'Project|name|neo4jd3': 'img/twemoji/2196.svg',`<br>&nbsp;&nbsp;&nbsp;&nbsp;`'User': 'img/twemoji/1f600.svg'`<br>`}`. |
 | **infoPanel** | *boolean* | Show the information panel: `true`, `false`. Default: `true`. |
 | **minCollision** | *int* | Minimum distance between nodes. Default: 2 * *nodeRadius*. |
 | **neo4jData** | *object* | Graph data in [Neo4j data format](#neo4j-data-format). |
@@ -178,16 +179,12 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
         }
     ],
     icons: {
-        'Address': 'home',
         'Api': 'gear',
         'BirthDate': 'birthday-cake',
         'Cookie': 'paw',
-        'CreditCard': 'credit-card',
-        'Device': 'laptop',
         'Email': 'at',
         'Git': 'git',
         'Github': 'github',
-        'icons': 'font-awesome',
         'Ip': 'map-marker',
         'Issues': 'exclamation-circle',
         'Language': 'language',
@@ -200,6 +197,26 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
         'zoomFit': 'arrows-alt',
         'zoomIn': 'search-plus',
         'zoomOut': 'search-minus'
+    },
+    images: {
+        'Address': 'img/twemoji/1f3e0.svg',
+        'BirthDate': 'img/twemoji/1f5d3.svg',
+        'Cookie': 'img/twemoji/1f36a.svg',
+        'CreditCard': 'img/twemoji/1f4b3.svg',
+        'Device': 'img/twemoji/1f4bb.svg',
+        'Email': 'img/twemoji/2709.svg',
+        'Git': 'img/twemoji/1f5c3.svg',
+        'Github': 'img/twemoji/1f5c4.svg',
+        'icons': 'img/twemoji/1f38f.svg',
+        'Ip': 'img/twemoji/1f4cd.svg',
+        'Issues': 'img/twemoji/1f4a9.svg',
+        'Language': 'img/twemoji/1f1f1-1f1f7.svg',
+        'Options': 'img/twemoji/2699.svg',
+        'Password': 'img/twemoji/1f511.svg',
+        'Project|name|d3': 'img/twemoji/32-20e3.svg',
+        'Project|name|neo4j': 'img/twemoji/33-20e3.svg',
+        'Project|name|neo4jd3': 'img/twemoji/31-20e3.svg',
+        'User': 'img/twemoji/1f600.svg'
     },
     minCollision: 60,
     neo4jDataUrl: 'json/neo4jData.json',
@@ -215,7 +232,9 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
 
 ## What's coming?
 
+* Toolbar.
 * More than one relationship between two nodes.
+* Markers.
 * Performance optimization.
 * Testing.
 

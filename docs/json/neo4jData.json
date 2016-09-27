@@ -205,7 +205,7 @@
                     }
                 }, {
                     "id": "5",
-                    "type": "HAS_SIGNATURE",
+                    "type": "USED_DEVICE",
                     "startNode": "1",
                     "endNode": "6",
                     "properties": {
