@@ -49,6 +49,7 @@
                         'Email': 'at',
                         'Git': 'git',
                         'Github': 'github',
+                        'Google': 'google',
 //                        'icons': 'font-awesome',
                         'Ip': 'map-marker',
                         'Issues': 'exclamation-circle',
@@ -92,7 +93,11 @@
                     neo4jDataUrl: 'json/neo4jData.json',
                     nodeRadius: 25,
                     onNodeDoubleClick: function(node) {
-                        switch(node.labels[0]) {
+                        switch(node.id) {
+                            case '25':
+                                // Google
+                                window.open(node.properties.url, '_blank');
+                                break;
                             default:
                                 var maxNodes = 5,
                                     data = neo4jd3.randomD3Data(node, maxNodes);

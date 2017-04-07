@@ -170,6 +170,12 @@
                     "id": "24",
                     "labels": ["Api"],
                     "properties": {}
+                }, {
+                    "id": "25",
+                    "labels": ["Google"],
+                    "properties": {
+                        "url": "https://www.google.com/#q=\"neo4jd3\""
+                    }
                 }],
                 "relationships": [{
                     "id": "1",
@@ -334,6 +340,12 @@
                     "type": "API",
                     "startNode": "8",
                     "endNode": "24",
+                    "properties": {}
+                }, {
+                    "id": "26",
+                    "type": "GOOGLE_SEARCH",
+                    "startNode": "8",
+                    "endNode": "25",
                     "properties": {}
                 }]
             }

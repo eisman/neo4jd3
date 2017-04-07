@@ -6,7 +6,7 @@
 
 ## Features
 
-* Neo4j's JSON graph format.
+* Compaptible with the [Neo4j data format](#neo4j-data-format) and the [D3.js data format](#d3js-data-format).
 * Force simulation.
 * Info panel that shows nodes and relationships information on hover.
 * Double click callbacks.
@@ -223,9 +223,17 @@ var neo4jd3 = new Neo4jd3('#neo4jd3', {
     neo4jDataUrl: 'json/neo4jData.json',
     nodeRadius: 25,
     onNodeDoubleClick: function(node) {
-        var maxNodes = 5,
-            data = neo4jd3.randomD3Data(node, maxNodes);
-        neo4jd3.updateWithD3Data(data);
+        switch(node.id) {
+            case '25':
+                // Google
+                window.open(node.properties.url, '_blank');
+                break;
+            default:
+                var maxNodes = 5,
+                    data = neo4jd3.randomD3Data(node, maxNodes);
+                neo4jd3.updateWithD3Data(data);
+                break;
+        }
     },
     zoomFit: true
 });
