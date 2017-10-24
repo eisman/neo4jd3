@@ -22,7 +22,9 @@ function Neo4jD3(_selector, _options) {
             nodeOutlineFillColor: undefined,
             nodeRadius: 25,
             relationshipColor: '#a5abb6',
-            zoomFit: false
+            zoomFit: false,
+            titled: false,
+            eachNodeHasItsOwnColor: false
         },
         VERSION = '0.0.1';
 
@@ -195,6 +197,10 @@ function Neo4jD3(_selector, _options) {
             appendImageToNode(n);
         }
 
+        if (options.titled) {
+            appendTitleToNode(n);
+        }
+
         return n;
     }
 
@@ -203,9 +209,17 @@ function Neo4jD3(_selector, _options) {
                    .attr('class', 'outline')
                    .attr('r', options.nodeRadius)
                    .style('fill', function(d) {
+
+                       if (options.eachNodeHasItsOwnColor)
+                            return d.color;
+
                        return options.nodeOutlineFillColor ? options.nodeOutlineFillColor : class2color(d.labels[0]);
                    })
                    .style('stroke', function(d) {
+
+                       if (options.eachNodeHasItsOwnColor)
+                            return d.color;
+
                        return options.nodeOutlineFillColor ? class2darkenColor(options.nodeOutlineFillColor) : class2darkenColor(d.labels[0]);
                    })
                    .append('title').text(function(d) {
@@ -221,6 +235,18 @@ function Neo4jD3(_selector, _options) {
                        return toString(d);
                    });
     }
+
+    function appendTitleToNode(node) {
+        return node.append('text')
+                    .attr('y', '50')
+                    .attr('x', '-50')
+                    .attr('font-size', '12')
+                    .attr('fill', '#666')
+                    .html(function(d){
+                      return d.properties.name;
+                    });
+    }
+
 
     function appendTextToNode(node) {
         return node.append('text')
