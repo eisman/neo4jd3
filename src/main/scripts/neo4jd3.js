@@ -684,6 +684,12 @@ function Neo4jD3(_selector, _options) {
         return icons[icons.length * Math.random() << 0];
     }
 
+    function resetWithNeo4jData(neo4jData) {
+        // Call the init method again with new data
+        var newOptions = Object.assign(_options, { neo4jData: neo4jData, neo4jDataUrl: undefined });
+        init(_selector, newOptions);
+    }
+
     function rotate(cx, cy, x, y, angle) {
         var radians = (Math.PI / 180) * angle,
             cos = Math.cos(radians),
@@ -962,6 +968,7 @@ function Neo4jD3(_selector, _options) {
         appendRandomDataToNode: appendRandomDataToNode,
         neo4jDataToD3Data: neo4jDataToD3Data,
         randomD3Data: randomD3Data,
+        resetWithNeo4jData: resetWithNeo4jData,
         size: size,
         updateWithD3Data: updateWithD3Data,
         updateWithNeo4jData: updateWithNeo4jData,
