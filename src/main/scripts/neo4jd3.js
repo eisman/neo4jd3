@@ -931,6 +931,15 @@ function Neo4jD3(_selector, _options) {
         relationshipText = relationshipEnter.text.merge(relationshipText);
     }
 
+    function clearNodes() {
+        nodes = [];
+        document.querySelectorAll(".node").forEach(
+            function(e) {
+                e.parentNode.removeChild(e);
+            }
+        );
+    }
+
     function version() {
         return VERSION;
     }
@@ -965,6 +974,7 @@ function Neo4jD3(_selector, _options) {
         size: size,
         updateWithD3Data: updateWithD3Data,
         updateWithNeo4jData: updateWithNeo4jData,
+        clearNodes: clearNodes,
         version: version
     };
 }
