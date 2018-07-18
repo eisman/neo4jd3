@@ -64,6 +64,7 @@ var neo4jd3 = new Neo4jd3('.selector', options);
 | Function | Description |
 | -------- | ----------- |
 | **appendRandomDataToNode**(*d*, *maxNodesToGenerate*) | Generates between 1 and *maxNodesToGenerate* random nodes connected to node *d* and updates the graph data. |
+| **closeNodes**() | Close all nodes and reset the graph to an empty state. |
 | **neo4jDataToD3Data**(*data*) | Converts data from [Neo4j data format](#neo4j-data-format) to [D3.js data format](#d3js-data-format). |
 | **randomD3Data**(*d*, *maxNodesToGenerate*) | Generates between 1 and *maxNodesToGenerate* random nodes connected to node *d*. |
 | **size**() | Returns the number of nodes and relationships.<br>Example:<br>`{`<br>&nbsp;&nbsp;&nbsp;&nbsp;`nodes: 25,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`relationships: 50`<br>`}` |

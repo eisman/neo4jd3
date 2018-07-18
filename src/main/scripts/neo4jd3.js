@@ -591,7 +591,7 @@ function Neo4jD3(_selector, _options) {
         data.results.forEach(function(result) {
             result.data.forEach(function(data) {
                 data.graph.nodes.forEach(function(node) {
-                    if (!contains(graph.nodes, node.id)) {
+                    if (!contains(nodes, node.id)) {
                         graph.nodes.push(node);
                     }
                 });
@@ -931,6 +931,15 @@ function Neo4jD3(_selector, _options) {
         relationshipText = relationshipEnter.text.merge(relationshipText);
     }
 
+    function clearNodes() {
+        nodes = [];
+        document.querySelectorAll(".node").forEach(
+            function(e) {
+                e.parentNode.removeChild(e);
+            }
+        );
+    }
+
     function version() {
         return VERSION;
     }
@@ -965,6 +974,7 @@ function Neo4jD3(_selector, _options) {
         size: size,
         updateWithD3Data: updateWithD3Data,
         updateWithNeo4jData: updateWithNeo4jData,
+        clearNodes: clearNodes,
         version: version
     };
 }
