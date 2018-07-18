@@ -591,7 +591,7 @@ function Neo4jD3(_selector, _options) {
         data.results.forEach(function(result) {
             result.data.forEach(function(data) {
                 data.graph.nodes.forEach(function(node) {
-                    if (!contains(graph.nodes, node.id)) {
+                    if (!contains(nodes, node.id)) {
                         graph.nodes.push(node);
                     }
                 });
