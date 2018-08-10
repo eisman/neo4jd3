@@ -567,10 +567,7 @@ function Neo4jD3(_selector, _options) {
         nodes = [];
         relationships = [];
 
-        d3.json(neo4jDataUrl, function(error, data) {
-            if (error) {
-                throw error;
-            }
+      
 
             updateWithNeo4jData(data);
         });
