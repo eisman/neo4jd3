@@ -22,6 +22,7 @@ function Neo4jD3(_selector, _options) {
             nodeOutlineFillColor: undefined,
             nodeRadius: 25,
             nodeTextProperty: undefined,
+            nodeTextColor: '#ffffff',
             relationshipColor: '#a5abb6',
             zoomFit: false
         },
@@ -228,7 +229,7 @@ function Neo4jD3(_selector, _options) {
                    .attr('class', function(d) {
                        return 'text' + (icon(d) ? ' icon' : '');
                    })
-                   .attr('fill', '#ffffff')
+                   .attr('fill', options.nodeTextColor)
                    .attr('font-size', function(d) {
                        return icon(d) ? (options.nodeRadius + 'px') : '10px';
                    })
