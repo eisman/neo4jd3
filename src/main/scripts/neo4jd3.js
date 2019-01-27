@@ -895,7 +895,18 @@ function Neo4jD3(_selector, _options) {
     }
 
     function updateNodes(n) {
-        Array.prototype.push.apply(nodes, n);
+        var distinctNodes = [];
+        if (nodes.length > 0) {
+            n.forEach(function(item, index, array) {
+                if (contains(nodes, item.id))
+                    return;
+                else
+                    distinctNodes.push(item);
+            });
+        } else
+            distinctNodes = n;
+
+        Array.prototype.push.apply(nodes, distinctNodes);
 
         node = svgNodes.selectAll('.node')
                        .data(nodes, function(d) { return d.id; });
@@ -912,7 +923,18 @@ function Neo4jD3(_selector, _options) {
     }
 
     function updateRelationships(r) {
-        Array.prototype.push.apply(relationships, r);
+        var distinctRelations = [];
+        if (relationships.length > 0) {
+            r.forEach(function(item, index, array) {
+                if (contains(relationships, item.id))
+                    return;
+                else
+                    distinctRelations.push(item);
+            });
+        } else
+            distinctRelations = r;
+
+        Array.prototype.push.apply(relationships, distinctRelations);
 
         relationship = svgRelationships.selectAll('.relationship')
                                        .data(relationships, function(d) { return d.id; });
