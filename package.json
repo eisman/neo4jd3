@@ -29,7 +29,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "d3": "^4.2.1"
+    "d3": "^4.2.1",
+    "sass": "^1.20.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.7",
@@ -56,7 +57,7 @@
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
-    "gulp-ruby-sass": "^2.1.0",
+    "gulp-sass": "^4.0.2",
     "gulp-uglify": "^2.0.0",
     "gulp-uncache": "^0.4.0-beta1",
     "gulp-util": "^3.0.7",
@@ -73,6 +74,7 @@
     "karma-sinon": "^1.0.4",
     "lodash": "^4.13.1",
     "node-notifier": "^4.6.0",
+    "node-sass": "^4.12.0",
     "phantomjs": "^2.1.1",
     "proxyquire": "^1.7.9 ",
     "proxyquireify": "^3.2.0",
