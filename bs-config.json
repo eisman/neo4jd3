@@ -1,0 +1,13 @@
+{
+    "_comment1": "https://github.com/johnpapa/lite-server",
+    "_comment2": "https://www.browsersync.io/docs/options",
+    "port": 3000,
+    "host": "127.0.0.1",
+    "files": ["./docs/*.{html,htm,css,js}"],
+    "server": { 
+        "baseDir": "./docs",
+        "routes": {
+            "/neo4jd3/" : "docs/"
+        }
+    }
+}
