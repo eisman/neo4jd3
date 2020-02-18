@@ -1,89 +1,31 @@
 {
-  "name": "neo4jd3",
-  "version": "0.0.5",
-  "description": "Neo4jD3",
+  "name": "neo4jd3.ts",
+  "version": "0.1.0",
+  "description": "Neo4jD3.ts",
   "main": "dist/neo4jd3.min.js",
-  "bugs": {
-    "url": "https://github.com/eisman/neo4jd3/issues"
-  },
-  "homepage": "https://github.com/eisman/neo4jd3",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "start": "gulp",
-    "test": "gulp test"
-  },
+  "bugs": {},
+  "homepage": "https://github.com/andiogenes/neo4jd3.ts",
+  "scripts": {},
   "keywords": [
     "neo4j",
     "d3.js",
-    "graph visualization"
+    "graph visualization",
+    "typescript"
   ],
   "author": {
-    "name": "Eduardo Eisman <eeisman@gmail.com>",
-    "url": "https://github.com/eisman"
+    "name": "Anton Zavyalov <megadeathlightsaber@gmail.com>",
+    "url": "https://github.com/andiogenes"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/eisman/neo4jd3.git"
+    "url": "https://github.com/andiogenes/neo4jd3.ts.git"
   },
   "license": "MIT",
   "dependencies": {
-    "d3": "^4.2.1"
+    "@types/d3": "^5.7.2",
+    "d3": "^5.15.0"
   },
   "devDependencies": {
-    "angular-mocks": "^1.5.7",
-    "bootstrap": "^3.3.7",
-    "browserify": "^13.0.1",
-    "browserify-shim": "^3.8.12",
-    "chai": "^3.5.0",
-    "del": "^2.2.1",
-    "ecstatic": "^2.1.0",
-    "font-awesome": "^4.6.3",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-cache": "^0.4.5",
-    "gulp-concat": "^2.6.0",
-    "gulp-connect": "^5.0.0",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-derequire": "^2.1.0",
-    "gulp-embedlr": "^0.5.2",
-    "gulp-if": "^2.0.1",
-    "gulp-imagemin": "^3.0.2",
-    "gulp-jshint": "^2.0.1",
-    "gulp-livereload": "^3.8.1",
-    "gulp-mocha": "^2.2.0",
-    "gulp-notify": "^2.2.0",
-    "gulp-plumber": "^1.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-ruby-sass": "^2.1.0",
-    "gulp-uglify": "^2.0.0",
-    "gulp-uncache": "^0.4.0-beta1",
-    "gulp-util": "^3.0.7",
-    "http-server": "^0.9.0",
-    "jshint": "^2.9.3",
-    "karma": "^0.13.22",
-    "karma-bamboo-reporter": "^0.1.2",
-    "karma-browserify": "^5.0.5",
-    "karma-chai-plugins": "^0.7.0",
-    "karma-coverage": "^1.0.0",
-    "karma-mocha": "^1.0.1",
-    "karma-mocha-reporter": "^2.0.4",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-sinon": "^1.0.4",
-    "lodash": "^4.13.1",
-    "node-notifier": "^4.6.0",
-    "phantomjs": "^2.1.1",
-    "proxyquire": "^1.7.9 ",
-    "proxyquireify": "^3.2.0",
-    "run-sequence": "^1.2.2",
-    "tiny-lr": "^0.2.1",
-    "twemoji": "^2.2.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "vinyl-transform": "^1.0.0",
-    "wallabify": "^0.0.14",
-    "watchify": "^3.7.0",
-    "wrench": "^1.5.9"
+    "typescript": "^3.7.5"
   }
 }
