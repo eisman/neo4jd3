@@ -284,7 +284,7 @@ export default class Neo4jd3 {
 
     appendTextToNode(node) {
         return node.append('text')
-            .attr('class', function (d) {
+            .attr('class', d => {
                 return 'text' + (this.icon(d) ? ' icon' : '');
             })
             .attr('fill', '#ffffff')
@@ -1216,17 +1216,20 @@ export default class Neo4jd3 {
         this.updateWithNeo4jData(this.options.neo4jData);
     }
 
+    /**
+     * @deprecated
+     */
     loadNeo4jDataFromUrl(neo4jDataUrl) {
-        this.nodes = [];
-        this.relationships = [];
+        // this.nodes = [];
+        // this.relationships = [];
 
-        d3.json(neo4jDataUrl, (error, data) => {
-            if (error) {
-                throw error;
-            }
-
-            this.updateWithNeo4jData(data);
-        });
+        // d3.json(neo4jDataUrl, (error, data) => {
+        //     if (error) {
+        //         throw error;
+        //     }
+        //
+        //     this.updateWithNeo4jData(data);
+        // });
     }
 
     merge(target, source) {
@@ -1400,13 +1403,13 @@ export default class Neo4jd3 {
             let rel = d3.select(this),
                 outline = rel.select('.outline'),
                 text = rel.select('.text'),
-                bbox = text.node().getBBox(),
+                bbox = (text.node() as SVGGraphicsElement).getBBox(),
                 padding = 3;
 
             outline.attr('d', function(d: any) {
                 let center = {x: 0, y: 0},
                     angle = network.rotation(d.source, d.target),
-                    textBoundingBox = text.node().getBBox(),
+                    textBoundingBox = (text.node() as SVGGraphicsElement).getBBox(),
                     textPadding = 5,
                     u = network.unitaryVector(d.source, d.target),
                     textMargin = {
