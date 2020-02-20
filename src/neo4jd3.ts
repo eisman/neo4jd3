@@ -7,13 +7,13 @@ export default class Neo4jd3 {
     private readonly info;
 
     private node;
-    private nodes;
+    private nodes = [];
 
     private relationship;
     private relationshipOutline;
     private relationshipOverlay;
     private relationshipText;
-    private relationships;
+    private relationships = [];
 
     private selector;
     private simulation;
