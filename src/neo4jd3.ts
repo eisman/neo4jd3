@@ -150,13 +150,13 @@ export default class Neo4jd3 {
             .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
 
         if (!value) {
-            elem.style('background-color', d => {
+            elem.style('background-color', _ => {
                 return this.options.nodeOutlineFillColor ? this.options.nodeOutlineFillColor : (isNode ? this.class2color(property) : this.defaultColor());
             })
-                .style('border-color', d => {
+                .style('border-color', _ => {
                     return this.options.nodeOutlineFillColor ? this.class2darkenColor(this.options.nodeOutlineFillColor) : (isNode ? this.class2darkenColor(property) : this.defaultDarkenColor());
                 })
-                .style('color', d => {
+                .style('color', _ => {
                     return this.options.nodeOutlineFillColor ? this.class2darkenColor(this.options.nodeOutlineFillColor) : '#fff';
                 });
         }
@@ -179,8 +179,7 @@ export default class Neo4jd3 {
             .append('g')
             .attr('class', d => {
                 let highlight, i,
-                    classes = 'node',
-                    label = d.labels[0];
+                    classes = 'node';
 
                 if (this.icon(d)) {
                     classes += ' node-icon';
@@ -268,7 +267,7 @@ export default class Neo4jd3 {
             .style('stroke', d => {
                 return this.options.nodeOutlineFillColor ? this.class2darkenColor(this.options.nodeOutlineFillColor) : this.class2darkenColor(d.labels[0]);
             })
-            .append('title').text(d => {
+            .append('title').text(_ => {
                 return toString();
             });
     }
@@ -277,7 +276,7 @@ export default class Neo4jd3 {
         return node.append('circle')
             .attr('class', 'ring')
             .attr('r', this.options.nodeRadius * 1.16)
-            .append('title').text(d => {
+            .append('title').text(_ => {
                 return toString();
             });
     }
@@ -1169,7 +1168,7 @@ export default class Neo4jd3 {
     }
 
     initImageMap() {
-        let key, keys, selector;
+        let key, keys;
 
         for (key in this.options.images) {
             if (this.options.images.hasOwnProperty(key)) {
@@ -1204,7 +1203,7 @@ export default class Neo4jd3 {
             .on('end', () => {
                 if (this.options.zoomFit && !this.justLoaded) {
                     this.justLoaded = true;
-                    this.zoomFit(2);
+                    this.zoomFit();
                 }
             });
     }
@@ -1399,12 +1398,10 @@ export default class Neo4jd3 {
     tickRelationshipsOutlines() {
         let network = this;
 
-        this.relationship.each(function(relationship) {
+        this.relationship.each(function() {
             let rel = d3.select(this),
                 outline = rel.select('.outline'),
-                text = rel.select('.text'),
-                bbox = (text.node() as SVGGraphicsElement).getBBox(),
-                padding = 3;
+                text = rel.select('.text');
 
             outline.attr('d', function(d: any) {
                 let center = {x: 0, y: 0},
@@ -1614,7 +1611,7 @@ export default class Neo4jd3 {
         return this.VERSION;
     }
 
-    zoomFit(transitionDuration) {
+    zoomFit() {
         let bounds = this.svg.node().getBBox(),
             parent = this.svg.node().parentElement.parentElement,
             fullWidth = parent.clientWidth,
