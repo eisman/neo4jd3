@@ -1385,8 +1385,8 @@ export default class Neo4jd3 {
 
     tickRelationships() {
         if (this.relationship) {
-            this.relationship.attr('transform', function (d) {
-                var angle = this.rotation(d.source, d.target);
+            this.relationship.attr('transform',  d => {
+                let angle = this.rotation(d.source, d.target);
                 return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
             });
 
