@@ -2,9 +2,10 @@
   "name": "neo4jd3.ts",
   "version": "0.1.0",
   "description": "Neo4jD3.ts",
-  "main": "dist/neo4jd3.min.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "bugs": {},
-  "homepage": "https://github.com/andiogenes/neo4jd3.ts",
+  "homepage": "https://github.com/Stackeer-IO/neo4jd3.ts",
   "scripts": {},
   "keywords": [
     "neo4j",
@@ -18,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/andiogenes/neo4jd3.ts.git"
+    "url": "https://github.com/Stackeer-IO/neo4jd3.ts.git"
   },
   "license": "MIT",
   "dependencies": {
