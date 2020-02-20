@@ -19,23 +19,28 @@
 * Zoom, pan, auto fit.
 * Compatible with D3.js v4.
 
-## Running
+## Building
 
-First of all, make sure you have ruby and sass gem installed. Then, clone the repository, install all dependencies, build and serve the project.
 
 ```bash
-> gem install sass
-> git clone https://github.com/eisman/neo4jd3.git
+> git clone https://github.com/Stackeer-IO/neo4jd3.ts.git
+> cd neo4jd3.ts
 > npm install
-> gulp
+> tsc
 ```
 
-Open `http://localhost:8080` in your favorite browser.
+## Running example
+
+```bash
+> cd examples/neo4jData
+> npm run build
+> ./index.html # (or run localhost)
+```
 
 ## Documentation
 
 ```javascript
-var neo4jd3 = new Neo4jd3('.selector', options);
+let neo4jd3 = new Neo4jd3('.selector', options);
 ```
 
 ### Options
