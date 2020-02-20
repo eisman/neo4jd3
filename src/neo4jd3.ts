@@ -1194,8 +1194,8 @@ export default class Neo4jd3 {
             }).iterations(2))
             .force('charge', d3.forceManyBody())
             .force('link', d3.forceLink().id(d => {
-                // return d.id;
-                return d.index.toString();
+                return (d as any).id;
+                // return d.index.toString();
             }))
             .force('center', d3.forceCenter(this.svg.node().parentElement.parentElement.clientWidth / 2, this.svg.node().parentElement.parentElement.clientHeight / 2))
             .on('tick', () => {
