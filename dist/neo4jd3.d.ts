@@ -724,8 +724,8 @@ export default class Neo4jd3 {
     };
     rotation(source: any, target: any): number;
     size(): {
-        nodes: any;
-        relationships: any;
+        nodes: number;
+        relationships: number;
     };
     stickNode(d: any): void;
     tick(): void;

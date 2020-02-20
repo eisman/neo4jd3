@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var d3 = require("d3");
 var Neo4jd3 = /** @class */ (function () {
     function Neo4jd3(selector, options) {
+        this.nodes = [];
+        this.relationships = [];
         this.classes2colors = {};
         this.justLoaded = false;
         this.numClasses = 0;
