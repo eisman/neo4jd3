@@ -236,9 +236,9 @@ export default class Neo4jd3 {
                 }
             })
             .call(d3.drag()
-                .on('start', this.dragStarted)
-                .on('drag', this.dragged)
-                .on('end', this.dragEnded));
+                .on('start', d => this.dragStarted(d))
+                .on('drag', d => this.dragged(d))
+                .on('end', d => this.dragEnded(d)));
     }
 
     appendNodeToGraph() {
