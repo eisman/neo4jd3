@@ -1,0 +1,12 @@
+{
+  "name": "neo4jdata",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc && webpack"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
