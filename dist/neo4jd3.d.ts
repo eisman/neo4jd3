@@ -750,5 +750,5 @@ export default class Neo4jd3 {
     updateNodesAndRelationships(n: any, r: any): void;
     updateRelationships(r: any): void;
     version(): string;
-    zoomFit(transitionDuration: any): void;
+    zoomFit(): void;
 }

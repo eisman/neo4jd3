@@ -108,13 +108,13 @@ var Neo4jd3 = /** @class */ (function () {
             .attr('class', cls)
             .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
         if (!value) {
-            elem.style('background-color', function (d) {
+            elem.style('background-color', function (_) {
                 return _this.options.nodeOutlineFillColor ? _this.options.nodeOutlineFillColor : (isNode ? _this.class2color(property) : _this.defaultColor());
             })
-                .style('border-color', function (d) {
+                .style('border-color', function (_) {
                 return _this.options.nodeOutlineFillColor ? _this.class2darkenColor(_this.options.nodeOutlineFillColor) : (isNode ? _this.class2darkenColor(property) : _this.defaultDarkenColor());
             })
-                .style('color', function (d) {
+                .style('color', function (_) {
                 return _this.options.nodeOutlineFillColor ? _this.class2darkenColor(_this.options.nodeOutlineFillColor) : '#fff';
             });
         }
@@ -133,7 +133,7 @@ var Neo4jd3 = /** @class */ (function () {
         return this.node.enter()
             .append('g')
             .attr('class', function (d) {
-            var highlight, i, classes = 'node', label = d.labels[0];
+            var highlight, i, classes = 'node';
             if (_this.icon(d)) {
                 classes += ' node-icon';
             }
@@ -207,7 +207,7 @@ var Neo4jd3 = /** @class */ (function () {
             .style('stroke', function (d) {
             return _this.options.nodeOutlineFillColor ? _this.class2darkenColor(_this.options.nodeOutlineFillColor) : _this.class2darkenColor(d.labels[0]);
         })
-            .append('title').text(function (d) {
+            .append('title').text(function (_) {
             return toString();
         });
     };
@@ -215,7 +215,7 @@ var Neo4jd3 = /** @class */ (function () {
         return node.append('circle')
             .attr('class', 'ring')
             .attr('r', this.options.nodeRadius * 1.16)
-            .append('title').text(function (d) {
+            .append('title').text(function (_) {
             return toString();
         });
     };
@@ -1066,7 +1066,7 @@ var Neo4jd3 = /** @class */ (function () {
         });
     };
     Neo4jd3.prototype.initImageMap = function () {
-        var key, keys, selector;
+        var key, keys;
         for (key in this.options.images) {
             if (this.options.images.hasOwnProperty(key)) {
                 keys = key.split('|');
@@ -1100,7 +1100,7 @@ var Neo4jd3 = /** @class */ (function () {
             .on('end', function () {
             if (_this.options.zoomFit && !_this.justLoaded) {
                 _this.justLoaded = true;
-                _this.zoomFit(2);
+                _this.zoomFit();
             }
         });
     };
@@ -1259,8 +1259,8 @@ var Neo4jd3 = /** @class */ (function () {
     };
     Neo4jd3.prototype.tickRelationshipsOutlines = function () {
         var network = this;
-        this.relationship.each(function (relationship) {
-            var rel = d3.select(this), outline = rel.select('.outline'), text = rel.select('.text'), bbox = text.node().getBBox(), padding = 3;
+        this.relationship.each(function () {
+            var rel = d3.select(this), outline = rel.select('.outline'), text = rel.select('.text');
             outline.attr('d', function (d) {
                 var center = { x: 0, y: 0 }, angle = network.rotation(d.source, d.target), textBoundingBox = text.node().getBBox(), textPadding = 5, u = network.unitaryVector(d.source, d.target), textMargin = {
                     x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5,
@@ -1411,7 +1411,7 @@ var Neo4jd3 = /** @class */ (function () {
     Neo4jd3.prototype.version = function () {
         return this.VERSION;
     };
-    Neo4jd3.prototype.zoomFit = function (transitionDuration) {
+    Neo4jd3.prototype.zoomFit = function () {
         var bounds = this.svg.node().getBBox(), parent = this.svg.node().parentElement.parentElement, fullWidth = parent.clientWidth, fullHeight = parent.clientHeight, width = bounds.width, height = bounds.height, midX = bounds.x + width / 2, midY = bounds.y + height / 2;
         if (width === 0 || height === 0) {
             return; // nothing to fit
