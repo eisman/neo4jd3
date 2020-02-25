@@ -48,7 +48,8 @@ export default class Neo4jd3 {
         nodeOutlineFillColor: undefined,
         nodeRadius: 25,
         relationshipColor: '#a5abb6',
-        zoomFit: false
+        zoomFit: false,
+        useId: true,
     };
 
     readonly VERSION = '0.01';
@@ -838,7 +839,9 @@ export default class Neo4jd3 {
             this.appendInfoElementRelationship('class', d.type);
         }
 
-        this.appendInfoElementProperty('property', '&lt;id&gt;', d.id);
+        if (this.options.useId) {
+            this.appendInfoElementProperty('property', '&lt;id&gt;', d.id);
+        }
 
         Object.keys(d.properties).forEach(property => {
             this.appendInfoElementProperty('property', property, JSON.stringify(d.properties[property]));
