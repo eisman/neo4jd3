@@ -33,6 +33,8 @@ export default class Neo4jd3 {
     private justLoaded = false;
     private numClasses = 0;
 
+    private listeners: Map<string, Array<(any) => void>>;
+
     private options: any = {
         arrowSize: 4,
         colors: colors,
@@ -89,6 +91,8 @@ export default class Neo4jd3 {
         } else if (options.neo4jDataUrl) {
             this.loadNeo4jDataFromUrl(options.neo4jDataUrl);
         }
+
+        this.listeners = new Map();
     }
 
     private appendGraph(container) {
@@ -219,12 +223,20 @@ export default class Neo4jd3 {
                 if (typeof this.options.onNodeClick === 'function') {
                     this.options.onNodeClick(d);
                 }
+
+                if (this.listeners.has('click')) {
+                    this.listeners.get('click').forEach(v => v(d));
+                }
             })
             .on('dblclick', d => {
                 Neo4jd3.stickNode(d);
 
                 if (typeof this.options.onNodeDoubleClick === 'function') {
                     this.options.onNodeDoubleClick(d);
+                }
+
+                if (this.listeners.has('dblclick')) {
+                    this.listeners.get('dblclick').forEach(v => v(d));
                 }
             })
             .on('mouseenter', d => {
@@ -235,6 +247,10 @@ export default class Neo4jd3 {
                 if (typeof this.options.onNodeMouseEnter === 'function') {
                     this.options.onNodeMouseEnter(d);
                 }
+
+                if (this.listeners.has('mouseenter')) {
+                    this.listeners.get('mouseenter').forEach(v => v(d));
+                }
             })
             .on('mouseleave', d => {
                 if (this.info) {
@@ -243,6 +259,10 @@ export default class Neo4jd3 {
 
                 if (typeof this.options.onNodeMouseLeave === 'function') {
                     this.options.onNodeMouseLeave(d);
+                }
+
+                if (this.listeners.has('mouseleave')) {
+                    this.listeners.get('mouseleave').forEach(v => v(d));
                 }
             })
             .call(d3.drag()
@@ -600,6 +620,16 @@ export default class Neo4jd3 {
         });
 
         return graph;
+    }
+
+    on(eventType: string, listener: (any) => void): this {
+        if (!this.listeners.has(eventType)) {
+            this.listeners.set(eventType, []);
+        }
+
+        this.listeners.get(eventType).push(listener);
+
+        return this;
     }
 
     randomD3Data(d, maxNodesToGenerate) {
