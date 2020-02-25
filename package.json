@@ -1,5 +1,5 @@
 {
-  "name": "neo4jd3.ts",
+  "name": "@stackeer-io/neo4jd3.ts",
   "version": "0.1.0",
   "description": "Neo4jD3.ts",
   "main": "dist/index.js",
@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "typescript": "^3.7.5"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
