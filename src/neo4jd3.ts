@@ -541,20 +541,13 @@ export default class Neo4jd3 {
         this.updateWithNeo4jData(this.options.neo4jData);
     }
 
-    /**
-     * @deprecated
-     */
     private loadNeo4jDataFromUrl(neo4jDataUrl) {
-        // this.nodes = [];
-        // this.relationships = [];
+        this.nodes = [];
+        this.relationships = [];
 
-        // d3.json(neo4jDataUrl, (error, data) => {
-        //     if (error) {
-        //         throw error;
-        //     }
-        //
-        //     this.updateWithNeo4jData(data);
-        // });
+        d3.json(neo4jDataUrl).then(data => {
+            this.updateWithNeo4jData(data);
+        });
     }
 
     neo4jDataToD3Data(data) {
