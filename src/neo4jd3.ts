@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import fontAwesomeIcons from "./icons";
 import colors from "./colors";
 import {contains, merge} from './utils';
+import * as math from "./math";
 
 export default class Neo4jd3 {
     private readonly container;
@@ -658,24 +659,6 @@ export default class Neo4jd3 {
         return icons[icons.length * Math.random() << 0];
     }
 
-    private static rotate(cx, cy, x, y, angle) {
-        let radians = (Math.PI / 180) * angle,
-            cos = Math.cos(radians),
-            sin = Math.sin(radians),
-            nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
-            ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
-
-        return {x: nx, y: ny};
-    }
-
-    private static rotatePoint(c, p, angle) {
-        return Neo4jd3.rotate(c.x, c.y, p.x, p.y, angle);
-    }
-
-    private static rotation(source, target) {
-        return Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI;
-    }
-
     size() {
         return {
             nodes: this.nodes.length,
@@ -704,7 +687,7 @@ export default class Neo4jd3 {
     private tickRelationships() {
         if (this.relationship) {
             this.relationship.attr('transform', d => {
-                let angle = Neo4jd3.rotation(d.source, d.target);
+                let angle = math.rotation(d.source, d.target);
                 return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
             });
 
@@ -724,50 +707,50 @@ export default class Neo4jd3 {
 
             outline.attr('d', function (d: any) {
                 let center = {x: 0, y: 0},
-                    angle = Neo4jd3.rotation(d.source, d.target),
+                    angle = math.rotation(d.source, d.target),
                     textBoundingBox = (text.node() as SVGGraphicsElement).getBBox(),
                     textPadding = 5,
-                    u = Neo4jd3.unitaryVector(d.source, d.target),
+                    u = math.unitaryVector(d.source, d.target),
                     textMargin = {
                         x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5,
                         y: (d.target.y - d.source.y - (textBoundingBox.width + textPadding) * u.y) * 0.5
                     },
-                    n = Neo4jd3.unitaryNormalVector(d.source, d.target),
-                    rotatedPointA1 = Neo4jd3.rotatePoint(center, {
+                    n = math.unitaryNormalVector(d.source, d.target),
+                    rotatedPointA1 = math.rotatePoint(center, {
                         x: (network.options.nodeRadius + 1) * u.x - n.x,
                         y: (network.options.nodeRadius + 1) * u.y - n.y
                     }, angle),
-                    rotatedPointB1 = Neo4jd3.rotatePoint(center, {x: textMargin.x - n.x, y: textMargin.y - n.y}, angle),
-                    rotatedPointC1 = Neo4jd3.rotatePoint(center, {x: textMargin.x, y: textMargin.y}, angle),
-                    rotatedPointD1 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointB1 = math.rotatePoint(center, {x: textMargin.x - n.x, y: textMargin.y - n.y}, angle),
+                    rotatedPointC1 = math.rotatePoint(center, {x: textMargin.x, y: textMargin.y}, angle),
+                    rotatedPointD1 = math.rotatePoint(center, {
                         x: (network.options.nodeRadius + 1) * u.x,
                         y: (network.options.nodeRadius + 1) * u.y
                     }, angle),
-                    rotatedPointA2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointA2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - textMargin.x - n.x,
                         y: d.target.y - d.source.y - textMargin.y - n.y
                     }, angle),
-                    rotatedPointB2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointB2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - n.x - u.x * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - n.y - u.y * network.options.arrowSize
                     }, angle),
-                    rotatedPointC2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointC2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * network.options.arrowSize
                     }, angle),
-                    rotatedPointD2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointD2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y
                     }, angle),
-                    rotatedPointE2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointE2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x + (-n.x - u.x) * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y + (-n.y - u.y) * network.options.arrowSize
                     }, angle),
-                    rotatedPointF2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointF2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - u.x * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - u.y * network.options.arrowSize
                     }, angle),
-                    rotatedPointG2 = Neo4jd3.rotatePoint(center, {
+                    rotatedPointG2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - textMargin.x,
                         y: d.target.y - d.source.y - textMargin.y
                     }, angle);
@@ -791,19 +774,19 @@ export default class Neo4jd3 {
     private tickRelationshipsOverlays() {
         this.relationshipOverlay.attr('d', d => {
             let center = {x: 0, y: 0},
-                angle = Neo4jd3.rotation(d.source, d.target),
-                n1 = Neo4jd3.unitaryNormalVector(d.source, d.target),
-                n = Neo4jd3.unitaryNormalVector(d.source, d.target, 50),
-                rotatedPointA = Neo4jd3.rotatePoint(center, {x: 0 - n.x, y: 0 - n.y}, angle),
-                rotatedPointB = Neo4jd3.rotatePoint(center, {
+                angle = math.rotation(d.source, d.target),
+                n1 = math.unitaryNormalVector(d.source, d.target),
+                n = math.unitaryNormalVector(d.source, d.target, 50),
+                rotatedPointA = math.rotatePoint(center, {x: 0 - n.x, y: 0 - n.y}, angle),
+                rotatedPointB = math.rotatePoint(center, {
                     x: d.target.x - d.source.x - n.x,
                     y: d.target.y - d.source.y - n.y
                 }, angle),
-                rotatedPointC = Neo4jd3.rotatePoint(center, {
+                rotatedPointC = math.rotatePoint(center, {
                     x: d.target.x - d.source.x + n.x - n1.x,
                     y: d.target.y - d.source.y + n.y - n1.y
                 }, angle),
-                rotatedPointD = Neo4jd3.rotatePoint(center, {x: 0 + n.x - n1.x, y: 0 + n.y - n1.y}, angle);
+                rotatedPointD = math.rotatePoint(center, {x: 0 + n.x - n1.x, y: 0 + n.y - n1.y}, angle);
 
             return 'M ' + rotatedPointA.x + ' ' + rotatedPointA.y +
                 ' L ' + rotatedPointB.x + ' ' + rotatedPointB.y +
@@ -815,16 +798,16 @@ export default class Neo4jd3 {
 
     private tickRelationshipsTexts() {
         this.relationshipText.attr('transform', d => {
-            let angle = (Neo4jd3.rotation(d.source, d.target) + 360) % 360,
+            let angle = (math.rotation(d.source, d.target) + 360) % 360,
                 mirror = angle > 90 && angle < 270,
                 center = {x: 0, y: 0},
-                n = Neo4jd3.unitaryNormalVector(d.source, d.target),
+                n = math.unitaryNormalVector(d.source, d.target),
                 nWeight = mirror ? 2 : -3,
                 point = {
                     x: (d.target.x - d.source.x) * 0.5 + n.x * nWeight,
                     y: (d.target.y - d.source.y) * 0.5 + n.y * nWeight
                 },
-                rotatedPoint = Neo4jd3.rotatePoint(center, point, angle);
+                rotatedPoint = math.rotatePoint(center, point, angle);
 
             return 'translate(' + rotatedPoint.x + ', ' + rotatedPoint.y + ') rotate(' + (mirror ? 180 : 0) + ')';
         });
@@ -842,22 +825,6 @@ export default class Neo4jd3 {
         s += ')';
 
         return s;
-    }
-
-    private static unitaryNormalVector(source, target, newLength = null) {
-        let center = {x: 0, y: 0},
-            vector = Neo4jd3.unitaryVector(source, target, newLength);
-
-        return Neo4jd3.rotatePoint(center, vector, 90);
-    }
-
-    private static unitaryVector(source, target, newLength = null) {
-        let length = Math.sqrt(Math.pow(target.x - source.x, 2) + Math.pow(target.y - source.y, 2)) / Math.sqrt(newLength || 1);
-
-        return {
-            x: (target.x - source.x) / length,
-            y: (target.y - source.y) / length,
-        };
     }
 
     updateWithD3Data(d3Data) {
