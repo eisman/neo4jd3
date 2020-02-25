@@ -6,7 +6,9 @@
   "typings": "dist/index.d.ts",
   "bugs": {},
   "homepage": "https://github.com/Stackeer-IO/neo4jd3.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc"
+  },
   "keywords": [
     "neo4j",
     "d3.js",
