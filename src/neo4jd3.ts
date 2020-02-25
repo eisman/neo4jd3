@@ -75,7 +75,7 @@ export default class Neo4jd3 {
             .html('');
 
         if (this.options.infoPanel) {
-            this.info = this.appendInfoPanel(this.container);
+            this.info = Neo4jd3.appendInfoPanel(this.container);
         }
 
         this.appendGraph(this.container);
@@ -89,7 +89,7 @@ export default class Neo4jd3 {
         }
     }
 
-    appendGraph(container) {
+    private appendGraph(container) {
         this.svg = container.append('svg')
             .attr('width', '100%')
             .attr('height', '100%')
@@ -140,12 +140,12 @@ export default class Neo4jd3 {
             });
     }
 
-    appendInfoPanel(container) {
+    private static appendInfoPanel(container) {
         return container.append('div')
             .attr('class', 'neo4jd3-info');
     }
 
-    appendInfoElement(cls, isNode, property, value = null) {
+    private appendInfoElement(cls, isNode, property, value = null) {
         let elem = this.info.append('a');
 
         elem.attr('href', '#')
@@ -171,19 +171,19 @@ export default class Neo4jd3 {
         }
     }
 
-    appendInfoElementClass(cls, node) {
+    private appendInfoElementClass(cls, node) {
         this.appendInfoElement(cls, true, node);
     }
 
-    appendInfoElementProperty(cls, property, value) {
+    private appendInfoElementProperty(cls, property, value) {
         this.appendInfoElement(cls, false, property, value);
     }
 
-    appendInfoElementRelationship(cls, relationship) {
+    private appendInfoElementRelationship(cls, relationship) {
         this.appendInfoElement(cls, false, relationship);
     }
 
-    appendNode() {
+    private appendNode() {
         return this.node.enter()
             .append('g')
             .attr('class', d => {
@@ -219,7 +219,7 @@ export default class Neo4jd3 {
                 }
             })
             .on('dblclick', d => {
-                this.stickNode(d);
+                Neo4jd3.stickNode(d);
 
                 if (typeof this.options.onNodeDoubleClick === 'function') {
                     this.options.onNodeDoubleClick(d);
@@ -245,11 +245,11 @@ export default class Neo4jd3 {
             })
             .call(d3.drag()
                 .on('start', d => this.dragStarted(d))
-                .on('drag', d => this.dragged(d))
+                .on('drag', d => Neo4jd3.dragged(d))
                 .on('end', d => this.dragEnded(d)));
     }
 
-    appendNodeToGraph() {
+    private appendNodeToGraph() {
         let n = this.appendNode();
 
         this.appendRingToNode(n);
@@ -266,7 +266,7 @@ export default class Neo4jd3 {
         return n;
     }
 
-    appendOutlineToNode(node) {
+    private appendOutlineToNode(node) {
         return node.append('circle')
             .attr('class', 'outline')
             .attr('r', this.options.nodeRadius)
@@ -278,21 +278,21 @@ export default class Neo4jd3 {
                     ? this.class2darkenColor(this.options.nodeOutlineFillColor)
                     : this.class2darkenColor(d.labels[0]);
             })
-            .append('title').text(_ => {
-                return toString();
+            .append('title').text(d => {
+                return this.toString(d);
             });
     }
 
-    appendRingToNode(node) {
+    private appendRingToNode(node) {
         return node.append('circle')
             .attr('class', 'ring')
             .attr('r', this.options.nodeRadius * 1.16)
-            .append('title').text(_ => {
-                return toString();
+            .append('title').text(d => {
+                return this.toString(d);
             });
     }
 
-    appendTextToNode(node) {
+    private appendTextToNode(node) {
         return node.append('text')
             .attr('class', d => {
                 return 'text' + (this.icon(d) ? ' icon' : '');
@@ -317,7 +317,7 @@ export default class Neo4jd3 {
         this.updateWithNeo4jData(data);
     }
 
-    appendRelationship() {
+    private appendRelationship() {
         return this.relationship.enter()
             .append('g')
             .attr('class', 'relationship')
@@ -333,19 +333,19 @@ export default class Neo4jd3 {
             })
     }
 
-    appendOutlineToRelationship(r) {
+    private static appendOutlineToRelationship(r) {
         return r.append('path')
             .attr('class', 'outline')
             .attr('fill', '#a5abb6')
             .attr('stroke', 'none');
     }
 
-    appendOverlayToRelationship(r) {
+    private static appendOverlayToRelationship(r) {
         return r.append('path')
             .attr('class', 'overlay');
     }
 
-    appendTextToRelationship(r) {
+    private static appendTextToRelationship(r) {
         return r.append('text')
             .attr('class', 'text')
             .attr('fill', '#000000')
@@ -357,11 +357,11 @@ export default class Neo4jd3 {
             });
     }
 
-    appendRelationshipToGraph() {
+    private appendRelationshipToGraph() {
         let relationship = this.appendRelationship(),
-            text = this.appendTextToRelationship(relationship),
-            outline = this.appendOutlineToRelationship(relationship),
-            overlay = this.appendOverlayToRelationship(relationship);
+            text = Neo4jd3.appendTextToRelationship(relationship),
+            outline = Neo4jd3.appendOutlineToRelationship(relationship),
+            overlay = Neo4jd3.appendOverlayToRelationship(relationship);
 
         return {
             outline: outline,
@@ -371,7 +371,7 @@ export default class Neo4jd3 {
         };
     }
 
-    class2color(cls) {
+    private class2color(cls) {
         let color = this.classes2colors[cls];
 
         if (!color) {
@@ -384,27 +384,23 @@ export default class Neo4jd3 {
         return color;
     }
 
-    class2darkenColor(cls) {
+    private class2darkenColor(cls) {
         return d3.rgb(this.class2color(cls)).darker(1);
     }
 
-    clearInfo() {
+    private clearInfo() {
         this.info.html('');
     }
 
-    color() {
-        return this.options.colors[this.options.colors.length * Math.random() << 0];
-    }
-
-    defaultColor() {
+    private defaultColor() {
         return this.options.relationshipColor;
     }
 
-    defaultDarkenColor() {
+    private defaultDarkenColor() {
         return d3.rgb(this.options.colors[this.options.colors.length - 1]).darker(1);
     }
 
-    dragEnded(d) {
+    private dragEnded(d) {
         if (!d3.event.active) {
             this.simulation.alphaTarget(0);
         }
@@ -414,11 +410,11 @@ export default class Neo4jd3 {
         }
     }
 
-    dragged(d) {
-        this.stickNode(d);
+    private static dragged(d) {
+        Neo4jd3.stickNode(d);
     }
 
-    dragStarted(d) {
+    private dragStarted(d) {
         if (!d3.event.active) {
             this.simulation.alphaTarget(0.3).restart();
         }
@@ -431,7 +427,7 @@ export default class Neo4jd3 {
         }
     }
 
-    icon(d) {
+    private icon(d) {
         let code;
 
         if (this.options.iconMap && this.options.showIcons && this.options.icons) {
@@ -447,7 +443,7 @@ export default class Neo4jd3 {
         return code;
     }
 
-    image(d) {
+    private image(d) {
         let i, imagesForLabel, img, imgLevel, label, labelPropertyValue, property, value;
 
         if (this.options.images) {
@@ -485,7 +481,7 @@ export default class Neo4jd3 {
         return img;
     }
 
-    initIconMap() {
+    private initIconMap() {
         Object.keys(this.options.iconMap).forEach(key => {
             let keys = key.split(','),
                 value = this.options.iconMap[key];
@@ -496,7 +492,7 @@ export default class Neo4jd3 {
         });
     }
 
-    initImageMap() {
+    private initImageMap() {
         let key, keys;
 
         for (key in this.options.images) {
@@ -512,7 +508,7 @@ export default class Neo4jd3 {
         }
     }
 
-    initSimulation() {
+    private initSimulation() {
         return d3.forceSimulation()
             //                           .velocityDecay(0.8)
             //                           .force('x', d3.force().strength(0.002))
@@ -537,7 +533,7 @@ export default class Neo4jd3 {
             });
     }
 
-    loadNeo4jData() {
+    private loadNeo4jData() {
         this.nodes = [];
         this.relationships = [];
 
@@ -547,7 +543,7 @@ export default class Neo4jd3 {
     /**
      * @deprecated
      */
-    loadNeo4jDataFromUrl(neo4jDataUrl) {
+    private loadNeo4jDataFromUrl(neo4jDataUrl) {
         // this.nodes = [];
         // this.relationships = [];
 
@@ -657,12 +653,12 @@ export default class Neo4jd3 {
         return data;
     }
 
-    randomLabel() {
+    private randomLabel() {
         let icons = Object.keys(this.options.iconMap);
         return icons[icons.length * Math.random() << 0];
     }
 
-    rotate(cx, cy, x, y, angle) {
+    private static rotate(cx, cy, x, y, angle) {
         let radians = (Math.PI / 180) * angle,
             cos = Math.cos(radians),
             sin = Math.sin(radians),
@@ -672,11 +668,11 @@ export default class Neo4jd3 {
         return {x: nx, y: ny};
     }
 
-    rotatePoint(c, p, angle) {
-        return this.rotate(c.x, c.y, p.x, p.y, angle);
+    private static rotatePoint(c, p, angle) {
+        return Neo4jd3.rotate(c.x, c.y, p.x, p.y, angle);
     }
 
-    rotation(source, target) {
+    private static rotation(source, target) {
         return Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI;
     }
 
@@ -687,17 +683,17 @@ export default class Neo4jd3 {
         };
     }
 
-    stickNode(d) {
+    private static stickNode(d) {
         d.fx = d3.event.x;
         d.fy = d3.event.y;
     }
 
-    tick() {
+    private tick() {
         this.tickNodes();
         this.tickRelationships();
     }
 
-    tickNodes() {
+    private tickNodes() {
         if (this.node) {
             this.node.attr('transform', function (d) {
                 return 'translate(' + d.x + ', ' + d.y + ')';
@@ -705,10 +701,10 @@ export default class Neo4jd3 {
         }
     }
 
-    tickRelationships() {
+    private tickRelationships() {
         if (this.relationship) {
             this.relationship.attr('transform', d => {
-                let angle = this.rotation(d.source, d.target);
+                let angle = Neo4jd3.rotation(d.source, d.target);
                 return 'translate(' + d.source.x + ', ' + d.source.y + ') rotate(' + angle + ')';
             });
 
@@ -718,7 +714,7 @@ export default class Neo4jd3 {
         }
     }
 
-    tickRelationshipsOutlines() {
+    private tickRelationshipsOutlines() {
         let network = this;
 
         this.relationship.each(function () {
@@ -728,50 +724,50 @@ export default class Neo4jd3 {
 
             outline.attr('d', function (d: any) {
                 let center = {x: 0, y: 0},
-                    angle = network.rotation(d.source, d.target),
+                    angle = Neo4jd3.rotation(d.source, d.target),
                     textBoundingBox = (text.node() as SVGGraphicsElement).getBBox(),
                     textPadding = 5,
-                    u = network.unitaryVector(d.source, d.target),
+                    u = Neo4jd3.unitaryVector(d.source, d.target),
                     textMargin = {
                         x: (d.target.x - d.source.x - (textBoundingBox.width + textPadding) * u.x) * 0.5,
                         y: (d.target.y - d.source.y - (textBoundingBox.width + textPadding) * u.y) * 0.5
                     },
-                    n = network.unitaryNormalVector(d.source, d.target),
-                    rotatedPointA1 = network.rotatePoint(center, {
+                    n = Neo4jd3.unitaryNormalVector(d.source, d.target),
+                    rotatedPointA1 = Neo4jd3.rotatePoint(center, {
                         x: (network.options.nodeRadius + 1) * u.x - n.x,
                         y: (network.options.nodeRadius + 1) * u.y - n.y
                     }, angle),
-                    rotatedPointB1 = network.rotatePoint(center, {x: textMargin.x - n.x, y: textMargin.y - n.y}, angle),
-                    rotatedPointC1 = network.rotatePoint(center, {x: textMargin.x, y: textMargin.y}, angle),
-                    rotatedPointD1 = network.rotatePoint(center, {
+                    rotatedPointB1 = Neo4jd3.rotatePoint(center, {x: textMargin.x - n.x, y: textMargin.y - n.y}, angle),
+                    rotatedPointC1 = Neo4jd3.rotatePoint(center, {x: textMargin.x, y: textMargin.y}, angle),
+                    rotatedPointD1 = Neo4jd3.rotatePoint(center, {
                         x: (network.options.nodeRadius + 1) * u.x,
                         y: (network.options.nodeRadius + 1) * u.y
                     }, angle),
-                    rotatedPointA2 = network.rotatePoint(center, {
+                    rotatedPointA2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - textMargin.x - n.x,
                         y: d.target.y - d.source.y - textMargin.y - n.y
                     }, angle),
-                    rotatedPointB2 = network.rotatePoint(center, {
+                    rotatedPointB2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - n.x - u.x * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - n.y - u.y * network.options.arrowSize
                     }, angle),
-                    rotatedPointC2 = network.rotatePoint(center, {
+                    rotatedPointC2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * network.options.arrowSize
                     }, angle),
-                    rotatedPointD2 = network.rotatePoint(center, {
+                    rotatedPointD2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y
                     }, angle),
-                    rotatedPointE2 = network.rotatePoint(center, {
+                    rotatedPointE2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x + (-n.x - u.x) * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y + (-n.y - u.y) * network.options.arrowSize
                     }, angle),
-                    rotatedPointF2 = network.rotatePoint(center, {
+                    rotatedPointF2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - u.x * network.options.arrowSize,
                         y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - u.y * network.options.arrowSize
                     }, angle),
-                    rotatedPointG2 = network.rotatePoint(center, {
+                    rotatedPointG2 = Neo4jd3.rotatePoint(center, {
                         x: d.target.x - d.source.x - textMargin.x,
                         y: d.target.y - d.source.y - textMargin.y
                     }, angle);
@@ -792,22 +788,22 @@ export default class Neo4jd3 {
         });
     }
 
-    tickRelationshipsOverlays() {
+    private tickRelationshipsOverlays() {
         this.relationshipOverlay.attr('d', d => {
             let center = {x: 0, y: 0},
-                angle = this.rotation(d.source, d.target),
-                n1 = this.unitaryNormalVector(d.source, d.target),
-                n = this.unitaryNormalVector(d.source, d.target, 50),
-                rotatedPointA = this.rotatePoint(center, {x: 0 - n.x, y: 0 - n.y}, angle),
-                rotatedPointB = this.rotatePoint(center, {
+                angle = Neo4jd3.rotation(d.source, d.target),
+                n1 = Neo4jd3.unitaryNormalVector(d.source, d.target),
+                n = Neo4jd3.unitaryNormalVector(d.source, d.target, 50),
+                rotatedPointA = Neo4jd3.rotatePoint(center, {x: 0 - n.x, y: 0 - n.y}, angle),
+                rotatedPointB = Neo4jd3.rotatePoint(center, {
                     x: d.target.x - d.source.x - n.x,
                     y: d.target.y - d.source.y - n.y
                 }, angle),
-                rotatedPointC = this.rotatePoint(center, {
+                rotatedPointC = Neo4jd3.rotatePoint(center, {
                     x: d.target.x - d.source.x + n.x - n1.x,
                     y: d.target.y - d.source.y + n.y - n1.y
                 }, angle),
-                rotatedPointD = this.rotatePoint(center, {x: 0 + n.x - n1.x, y: 0 + n.y - n1.y}, angle);
+                rotatedPointD = Neo4jd3.rotatePoint(center, {x: 0 + n.x - n1.x, y: 0 + n.y - n1.y}, angle);
 
             return 'M ' + rotatedPointA.x + ' ' + rotatedPointA.y +
                 ' L ' + rotatedPointB.x + ' ' + rotatedPointB.y +
@@ -817,24 +813,24 @@ export default class Neo4jd3 {
         });
     }
 
-    tickRelationshipsTexts() {
+    private tickRelationshipsTexts() {
         this.relationshipText.attr('transform', d => {
-            let angle = (this.rotation(d.source, d.target) + 360) % 360,
+            let angle = (Neo4jd3.rotation(d.source, d.target) + 360) % 360,
                 mirror = angle > 90 && angle < 270,
                 center = {x: 0, y: 0},
-                n = this.unitaryNormalVector(d.source, d.target),
+                n = Neo4jd3.unitaryNormalVector(d.source, d.target),
                 nWeight = mirror ? 2 : -3,
                 point = {
                     x: (d.target.x - d.source.x) * 0.5 + n.x * nWeight,
                     y: (d.target.y - d.source.y) * 0.5 + n.y * nWeight
                 },
-                rotatedPoint = this.rotatePoint(center, point, angle);
+                rotatedPoint = Neo4jd3.rotatePoint(center, point, angle);
 
             return 'translate(' + rotatedPoint.x + ', ' + rotatedPoint.y + ') rotate(' + (mirror ? 180 : 0) + ')';
         });
     }
 
-    toString(d) {
+    private toString(d) {
         let s = d.labels ? d.labels[0] : d.type;
 
         s += ' (<id>: ' + d.id;
@@ -848,14 +844,14 @@ export default class Neo4jd3 {
         return s;
     }
 
-    unitaryNormalVector(source, target, newLength = null) {
+    private static unitaryNormalVector(source, target, newLength = null) {
         let center = {x: 0, y: 0},
-            vector = this.unitaryVector(source, target, newLength);
+            vector = Neo4jd3.unitaryVector(source, target, newLength);
 
-        return this.rotatePoint(center, vector, 90);
+        return Neo4jd3.rotatePoint(center, vector, 90);
     }
 
-    unitaryVector(source, target, newLength = null) {
+    private static unitaryVector(source, target, newLength = null) {
         let length = Math.sqrt(Math.pow(target.x - source.x, 2) + Math.pow(target.y - source.y, 2)) / Math.sqrt(newLength || 1);
 
         return {
@@ -873,7 +869,7 @@ export default class Neo4jd3 {
         this.updateWithD3Data(d3Data);
     }
 
-    updateInfo(d) {
+    private updateInfo(d) {
         this.clearInfo();
 
         if (d.labels) {
@@ -889,7 +885,7 @@ export default class Neo4jd3 {
         });
     }
 
-    updateNodes(n) {
+    private updateNodes(n) {
         Array.prototype.push.apply(this.nodes, n);
 
         this.node = this.svgNodes.selectAll('.node')
@@ -900,7 +896,7 @@ export default class Neo4jd3 {
         this.node = nodeEnter.merge(this.node);
     }
 
-    updateNodesAndRelationships(n, r) {
+    private updateNodesAndRelationships(n, r) {
         this.updateRelationships(r);
         this.updateNodes(n);
 
@@ -908,7 +904,7 @@ export default class Neo4jd3 {
         this.simulation.force('link').links(this.relationships);
     }
 
-    updateRelationships(r) {
+    private updateRelationships(r) {
         Array.prototype.push.apply(this.relationships, r);
 
         this.relationship = this.svgRelationships.selectAll('.relationship')
@@ -930,7 +926,7 @@ export default class Neo4jd3 {
         this.relationshipText = relationshipEnter.text.merge(this.relationshipText);
     }
 
-    zoomFit() {
+    private zoomFit() {
         let bounds = this.svg.node().getBBox(),
             parent = this.svg.node().parentElement.parentElement,
             fullWidth = parent.clientWidth,
@@ -950,13 +946,4 @@ export default class Neo4jd3 {
         this.svg.attr('transform', 'translate(' + this.svgTranslate[0] + ', ' + this.svgTranslate[1] + ') scale(' + this.svgScale + ')');
 //        smoothTransform(svgTranslate, svgScale);
     }
-
-    // Default exported methods:
-    // appendRandomDataToNode: appendRandomDataToNode,
-    // neo4jDataToD3Data: neo4jDataToD3Data,
-    // randomD3Data: randomD3Data,
-    // size: size,
-    // updateWithD3Data: updateWithD3Data,
-    // updateWithNeo4jData: updateWithNeo4jData,
-    // version: version
 }
