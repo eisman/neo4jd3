@@ -42,6 +42,7 @@ export default class Neo4jd3 {
         iconMap: fontAwesomeIcons,
         icons: undefined,
         imageMap: {},
+        pictograms: {},
         images: undefined,
         infoPanel: true,
         minCollision: undefined,
@@ -144,6 +145,30 @@ export default class Neo4jd3 {
             .attr('width', d => {
                 return this.icon(d) ? '24px' : '30px';
             });
+    }
+
+    private appendPictogramToNode(node) {
+        const options = this.options;
+
+        return node.each(function (d) {
+            if (!d.hasOwnProperty("pictograms")) return;
+
+            const pictograms: string[] = d.pictograms;
+            const startPosition = (-pictograms.length * 24) / 2;
+
+            pictograms.forEach((v, i) => {
+                d3.select(this).append('image')
+                    .attr('height', _ => '24px')
+                    .attr('x', '5px')
+                    .attr('xlink:href', _ => {
+                        return options.pictograms[v] || '';
+                    })
+                    .attr('y', _ =>
+                        `${startPosition + i * 24}px`
+                    )
+                    .attr('width', _ => '24px');
+            });
+        });
     }
 
     private static appendInfoPanel(container) {
@@ -283,6 +308,10 @@ export default class Neo4jd3 {
 
         if (this.options.images) {
             this.appendImageToNode(n);
+        }
+
+        if (this.options.pictograms) {
+            this.appendPictogramToNode(n);
         }
 
         return n;
