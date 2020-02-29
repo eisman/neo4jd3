@@ -43,6 +43,7 @@ export default class Neo4jd3 {
         icons: undefined,
         imageMap: {},
         pictograms: {},
+        pictogramsLook: {},
         images: undefined,
         infoPanel: true,
         minCollision: undefined,
@@ -150,23 +151,29 @@ export default class Neo4jd3 {
     private appendPictogramToNode(node) {
         const options = this.options;
 
+        const startX = this.options.pictogramsLook?.x || 5;
+        const startY = this.options.pictogramsLook?.y || 0;
+        const pictogramWidth = this.options.pictogramsLook?.width || 24;
+        const pictogramHeight = this.options.pictogramsLook?.height || 24;
+        const offset = this.options.pictogramsLook?.offset || 0;
+
         return node.each(function (d) {
             if (!d.hasOwnProperty("pictograms")) return;
 
             const pictograms: string[] = d.pictograms;
-            const startPosition = (-pictograms.length * 24) / 2;
+            const startPosition = startY + (-pictograms.length * (pictogramWidth + offset) + offset) / 2;
 
             pictograms.forEach((v, i) => {
                 d3.select(this).append('image')
-                    .attr('height', _ => '24px')
-                    .attr('x', '5px')
+                    .attr('height', _ => `${pictogramHeight}px`)
+                    .attr('x', `${startX}px`)
                     .attr('xlink:href', _ => {
                         return options.pictograms[v] || '';
                     })
                     .attr('y', _ =>
-                        `${startPosition + i * 24}px`
+                        `${startPosition + i * pictogramHeight + (i == 0 ? 0 : offset)}px`
                     )
-                    .attr('width', _ => '24px');
+                    .attr('width', _ => `${pictogramWidth}px`);
             });
         });
     }
