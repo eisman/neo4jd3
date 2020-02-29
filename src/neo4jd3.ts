@@ -451,6 +451,16 @@ export default class Neo4jd3 {
         return d3.rgb(this.options.colors[this.options.colors.length - 1]).darker(1);
     }
 
+    disableForces() {
+        if (this.simulation) {
+            this.simulation
+                .force('collide', null)
+                .force('charge', null)
+                .force('link', null)
+                .force('center', null);
+        }
+    }
+
     private dragEnded(d) {
         if (!d3.event.active) {
             this.simulation.alphaTarget(0);
