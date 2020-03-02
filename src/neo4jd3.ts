@@ -118,6 +118,11 @@ export default class Neo4jd3 {
                 this.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
             }))
             .on('dblclick.zoom', null)
+            .on('click', _ => {
+                if (this.info && d3.event.target.classList.contains('neo4jd3-graph')) {
+                    this.clearInfo();
+                }
+            })
             .append('g')
             .attr('width', '100%')
             .attr('height', '100%');
@@ -252,6 +257,10 @@ export default class Neo4jd3 {
             .on('click', d => {
                 d.fx = d.fy = null;
 
+                if (this.info) {
+                    this.updateInfo(d);
+                }
+
                 if (typeof this.options.onNodeClick === 'function') {
                     this.options.onNodeClick(d);
                 }
@@ -270,10 +279,6 @@ export default class Neo4jd3 {
                 }
             })
             .on('mouseenter', d => {
-                if (this.info) {
-                    this.updateInfo(d);
-                }
-
                 if (typeof this.options.onNodeMouseEnter === 'function') {
                     this.options.onNodeMouseEnter(d);
                 }
@@ -283,10 +288,6 @@ export default class Neo4jd3 {
                 }
             })
             .on('mouseleave', d => {
-                if (this.info) {
-                    this.clearInfo();
-                }
-
                 if (typeof this.options.onNodeMouseLeave === 'function') {
                     this.options.onNodeMouseLeave(d);
                 }
@@ -382,7 +383,7 @@ export default class Neo4jd3 {
                     this.options.onRelationshipDoubleClick(d);
                 }
             })
-            .on('mouseenter', d => {
+            .on('click', d => {
                 if (this.info) {
                     this.updateInfo(d);
                 }
