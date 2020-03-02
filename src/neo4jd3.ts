@@ -261,8 +261,6 @@ export default class Neo4jd3 {
                 }
             })
             .on('dblclick', d => {
-                Neo4jd3.stickNode(d);
-
                 if (typeof this.options.onNodeDoubleClick === 'function') {
                     this.options.onNodeDoubleClick(d);
                 }
