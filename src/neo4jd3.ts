@@ -196,14 +196,14 @@ export default class Neo4jd3 {
             })
                 .style('border-color', _ => {
                     return this.options.nodeOutlineFillColor
-                        ? this.class2darkenColor(this.options.nodeOutlineFillColor)
+                        ? this.classToDarkenColor(this.options.nodeOutlineFillColor)
                         : (isNode
-                            ? this.class2darkenColor(property)
+                            ? this.classToDarkenColor(property)
                             : this.defaultDarkenColor());
                 })
                 .style('color', _ => {
                     return this.options.nodeOutlineFillColor
-                        ? this.class2darkenColor(this.options.nodeOutlineFillColor)
+                        ? this.classToDarkenColor(this.options.nodeOutlineFillColor)
                         : '#fff';
                 });
         }
@@ -330,8 +330,8 @@ export default class Neo4jd3 {
             })
             .style('stroke', d => {
                 return this.options.nodeOutlineFillColor
-                    ? this.class2darkenColor(this.options.nodeOutlineFillColor)
-                    : this.class2darkenColor(d.labels[0]);
+                    ? this.classToDarkenColor(this.options.nodeOutlineFillColor)
+                    : this.classToDarkenColor(d.labels[0]);
             })
             .append('title').text(d => this.toString(d));
     }
@@ -428,7 +428,7 @@ export default class Neo4jd3 {
         return color;
     }
 
-    private class2darkenColor(cls) {
+    private classToDarkenColor(cls) {
         return d3.rgb(this.classToColor(cls)).darker(1);
     }
 
