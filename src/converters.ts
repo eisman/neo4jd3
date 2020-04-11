@@ -54,3 +54,41 @@ export function neo4jDataToD3Data(data) {
 
     return graph;
 }
+
+export function randomD3Data(d, maxNodesToGenerate, size, labelFunc: () => string) {
+    const data = {
+        nodes: [],
+        relationships: []
+    };
+
+    const numNodes = (maxNodesToGenerate * Math.random() << 0) + 1;
+
+    for (let i = 0; i < numNodes; i++) {
+        const label = labelFunc();
+
+        data.nodes[data.nodes.length] = {
+            id: size.nodes + 1 + i,
+            labels: [label],
+            properties: {
+                random: label
+            },
+            x: d.x,
+            y: d.y
+        };
+
+        data.relationships[data.relationships.length] = {
+            id: size.relationships + 1 + i,
+            type: label.toUpperCase(),
+            startNode: d.id,
+            endNode: size.nodes + 1 + i,
+            properties: {
+                from: Date.now()
+            },
+            source: d.id,
+            target: size.nodes + 1 + i,
+            linknum: size.relationships + 1 + i
+        };
+    }
+
+    return data;
+}

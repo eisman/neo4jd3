@@ -627,49 +627,7 @@ export default class Neo4jd3 {
     }
 
     randomD3Data(d, maxNodesToGenerate) {
-        let data = {
-                nodes: [],
-                relationships: []
-            },
-            i,
-            label,
-            node,
-            numNodes = (maxNodesToGenerate * Math.random() << 0) + 1,
-            relationship,
-            s = this.size();
-
-        for (i = 0; i < numNodes; i++) {
-            label = this.randomLabel();
-
-            node = {
-                id: s.nodes + 1 + i,
-                labels: [label],
-                properties: {
-                    random: label
-                },
-                x: d.x,
-                y: d.y
-            };
-
-            data.nodes[data.nodes.length] = node;
-
-            relationship = {
-                id: s.relationships + 1 + i,
-                type: label.toUpperCase(),
-                startNode: d.id,
-                endNode: s.nodes + 1 + i,
-                properties: {
-                    from: Date.now()
-                },
-                source: d.id,
-                target: s.nodes + 1 + i,
-                linknum: s.relationships + 1 + i
-            };
-
-            data.relationships[data.relationships.length] = relationship;
-        }
-
-        return data;
+        return converters.randomD3Data(d, maxNodesToGenerate, this.size(), () => this.randomLabel());
     }
 
     private randomLabel() {
