@@ -1,8 +1,9 @@
 import * as d3 from 'd3';
 import fontAwesomeIcons from "./icons";
 import colors from "./colors";
-import {contains, merge} from './utils';
+import {merge} from './utils';
 import * as math from "./math";
+import * as converters from "./converters";
 
 export default class Neo4jd3 {
     private container;
@@ -612,54 +613,7 @@ export default class Neo4jd3 {
     }
 
     neo4jDataToD3Data(data) {
-        let graph = {
-            nodes: [],
-            relationships: []
-        };
-
-        data.results.forEach(result => {
-            result.data.forEach(data => {
-                data.graph.nodes.forEach(node => {
-                    if (!contains(graph.nodes, node.id)) {
-                        graph.nodes.push(node);
-                    }
-                });
-
-                data.graph.relationships.forEach(function (relationship) {
-                    relationship.source = relationship.startNode;
-                    relationship.target = relationship.endNode;
-                    graph.relationships.push(relationship);
-                });
-
-                data.graph.relationships.sort(function (a, b) {
-                    if (a.source > b.source) {
-                        return 1;
-                    } else if (a.source < b.source) {
-                        return -1;
-                    } else {
-                        if (a.target > b.target) {
-                            return 1;
-                        }
-
-                        if (a.target < b.target) {
-                            return -1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                });
-
-                for (let i = 0; i < data.graph.relationships.length; i++) {
-                    if (i !== 0 && data.graph.relationships[i].source === data.graph.relationships[i - 1].source && data.graph.relationships[i].target === data.graph.relationships[i - 1].target) {
-                        data.graph.relationships[i].linknum = data.graph.relationships[i - 1].linknum + 1;
-                    } else {
-                        data.graph.relationships[i].linknum = 1;
-                    }
-                }
-            });
-        });
-
-        return graph;
+        return converters.neo4jDataToD3Data(data);
     }
 
     on(eventType: string, listener: (any) => void): this {
