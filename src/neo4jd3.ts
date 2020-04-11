@@ -542,7 +542,7 @@ export default class Neo4jd3 {
     }
 
     private initIconMap() {
-        this.options.iconMap.keys.forEach(iconMapKey => {
+        Object.keys(this.options.iconMap).forEach(iconMapKey => {
             const keys = iconMapKey.split(',');
             const value = this.options.iconMap[iconMapKey];
 
@@ -553,7 +553,7 @@ export default class Neo4jd3 {
     }
 
     private initImageMap() {
-        this.options.images.keys.forEach(key => {
+        Object.keys(this.options.images).forEach(key => {
             const keys = key.split('|');
             const tag = keys[0];
 
