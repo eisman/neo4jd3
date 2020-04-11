@@ -139,21 +139,11 @@ export default class Neo4jd3 {
 
     appendImageToNode(node) {
         return node.append('image')
-            .attr('height', d => {
-                return this.icon(d) ? '24px' : '30px';
-            })
-            .attr('x', d => {
-                return this.icon(d) ? '5px' : '-15px';
-            })
-            .attr('xlink:href', d => {
-                return this.image(d);
-            })
-            .attr('y', d => {
-                return this.icon(d) ? '5px' : '-16px';
-            })
-            .attr('width', d => {
-                return this.icon(d) ? '24px' : '30px';
-            });
+            .attr('height', d => this.icon(d) ? '24px' : '30px')
+            .attr('x', d => this.icon(d) ? '5px' : '-15px')
+            .attr('xlink:href', d => this.image(d))
+            .attr('y', d => this.icon(d) ? '5px' : '-16px')
+            .attr('width', d => this.icon(d) ? '24px' : '30px');
     }
 
     private appendPictogramToNode(node) {
