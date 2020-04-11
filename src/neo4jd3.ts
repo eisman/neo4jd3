@@ -340,9 +340,7 @@ export default class Neo4jd3 {
         return node.append('circle')
             .attr('class', 'ring')
             .attr('r', this.options.nodeRadius * 1.16)
-            .append('title').text(d => {
-                return this.toString(d);
-            });
+            .append('title').text(d => this.toString(d));
     }
 
     private appendTextToNode(node) {
