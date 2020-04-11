@@ -345,20 +345,14 @@ export default class Neo4jd3 {
 
     private appendTextToNode(node) {
         return node.append('text')
-            .attr('class', d => {
-                return 'text' + (this.icon(d) ? ' icon' : '');
-            })
+            .attr('class', d => `text${this.icon(d) ? ' icon' : ''}`)
             .attr('fill', '#ffffff')
-            .attr('font-size', d => {
-                return this.icon(d) ? (this.options.nodeRadius + 'px') : '10px';
-            })
+            .attr('font-size', d => this.icon(d) ? `${this.options.nodeRadius}px` : '10px')
             .attr('pointer-events', 'none')
             .attr('text-anchor', 'middle')
-            .attr('y', d => {
-                return this.icon(d) ? (Math.round(this.options.nodeRadius * 0.32) + 'px') : '4px';
-            })
+            .attr('y', d => this.icon(d) ? `${Math.round(this.options.nodeRadius * 0.32)}px` : '4px')
             .html(d => {
-                let _icon = this.icon(d);
+                const _icon = this.icon(d);
                 return _icon ? '&#x' + _icon : d.id;
             });
     }
