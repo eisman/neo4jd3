@@ -57,18 +57,21 @@ export default class Neo4jd3 {
 
     constructor(selector: string, options: any) {
         this.initOptions(options);
-
         this.initGraph(selector);
 
         this.simulation = this.initSimulation();
 
-        if (this.options.neo4jData) {
-            this.loadNeo4jData();
-        } else if (options.neo4jDataUrl) {
-            this.loadNeo4jDataFromUrl(options.neo4jDataUrl);
-        }
+        this.loadData();
 
         this.listeners = new Map();
+    }
+
+    private loadData() {
+        if (this.options.neo4jData) {
+            this.loadNeo4jData();
+        } else if (this.options.neo4jDataUrl) {
+            this.loadNeo4jDataFromUrl(this.options.neo4jDataUrl);
+        }
     }
 
     private initGraph(selector: string) {
