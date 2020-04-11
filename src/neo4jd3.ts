@@ -638,9 +638,7 @@ export default class Neo4jd3 {
 
     private tickNodes() {
         if (this.node) {
-            this.node.attr('transform', function (d) {
-                return 'translate(' + d.x + ', ' + d.y + ')';
-            });
+            this.node.attr('transform', d => `translate(${d.x}, ${d.y})`);
         }
     }
 
