@@ -615,7 +615,7 @@ export default class Neo4jd3 {
     }
 
     private randomLabel() {
-        let icons = Object.keys(this.options.iconMap);
+        const icons = Object.keys(this.options.iconMap);
         return icons[icons.length * Math.random() << 0];
     }
 
