@@ -816,9 +816,7 @@ export default class Neo4jd3 {
         Array.prototype.push.apply(this.nodes, n);
 
         this.node = this.svgNodes.selectAll('.node')
-            .data(this.nodes, function (d) {
-                return d.id;
-            });
+            .data(this.nodes, d => d.id);
         const nodeEnter = this.appendNodeToGraph();
         this.node = nodeEnter.merge(this.node);
     }
