@@ -498,16 +498,16 @@ export default class Neo4jd3 {
     }
 
     private image(d) {
-        let i, imagesForLabel, img, imgLevel, label, labelPropertyValue, property, value;
+        let value, property, label, img;
 
         if (this.options.images) {
-            imagesForLabel = this.options.imageMap[d.labels[0]];
+            const imagesForLabel = this.options.imageMap[d.labels[0]];
 
             if (imagesForLabel) {
-                imgLevel = 0;
+                let imgLevel = 0;
 
-                for (i = 0; i < imagesForLabel.length; i++) {
-                    labelPropertyValue = imagesForLabel[i].split('|');
+                for (let i = 0; i < imagesForLabel.length; i++) {
+                    const labelPropertyValue = imagesForLabel[i].split('|');
 
                     switch (labelPropertyValue.length) {
                         case 3:
