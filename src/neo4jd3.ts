@@ -756,18 +756,18 @@ export default class Neo4jd3 {
 
     private tickRelationshipsTexts() {
         this.relationshipText.attr('transform', d => {
-            let angle = (math.rotation(d.source, d.target) + 360) % 360,
-                mirror = angle > 90 && angle < 270,
-                center = {x: 0, y: 0},
-                n = math.unitaryNormalVector(d.source, d.target),
-                nWeight = mirror ? 2 : -3,
-                point = {
-                    x: (d.target.x - d.source.x) * 0.5 + n.x * nWeight,
-                    y: (d.target.y - d.source.y) * 0.5 + n.y * nWeight
-                },
-                rotatedPoint = math.rotatePoint(center, point, angle);
+            const angle = (math.rotation(d.source, d.target) + 360) % 360;
+            const mirror = angle > 90 && angle < 270;
+            const center = {x: 0, y: 0};
+            const n = math.unitaryNormalVector(d.source, d.target);
+            const nWeight = mirror ? 2 : -3;
+            const point = {
+                x: (d.target.x - d.source.x) * 0.5 + n.x * nWeight,
+                y: (d.target.y - d.source.y) * 0.5 + n.y * nWeight
+            };
+            const rotatedPoint = math.rotatePoint(center, point, angle);
 
-            return 'translate(' + rotatedPoint.x + ', ' + rotatedPoint.y + ') rotate(' + (mirror ? 180 : 0) + ')';
+            return `translate(${rotatedPoint.x}, ${rotatedPoint.y}) rotate(${mirror ? 180 : 0})`;
         });
     }
 
