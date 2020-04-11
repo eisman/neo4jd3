@@ -137,7 +137,7 @@ export default class Neo4jd3 {
             .attr('class', 'nodes');
     }
 
-    appendImageToNode(node) {
+    private appendImageToNode(node) {
         return node.append('image')
             .attr('height', d => this.icon(d) ? '24px' : '30px')
             .attr('x', d => this.icon(d) ? '5px' : '-15px')
