@@ -6,7 +6,6 @@ import * as math from "./math";
 
 export default class Neo4jd3 {
     private readonly container;
-    private graph;
 
     private readonly info;
 
