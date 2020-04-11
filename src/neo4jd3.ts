@@ -57,20 +57,7 @@ export default class Neo4jd3 {
     readonly VERSION = '0.01';
 
     constructor(selector: string, options: any) {
-        this.initIconMap();
-
-        merge(this.options, options);
-
-        if (this.options.icons) {
-            this.options.showIcons = true;
-        }
-
-        if (!this.options.minCollision) {
-            this.options.minCollision = this.options.nodeRadius * 2;
-        }
-
-        this.initImageMap();
-
+        this.initOptions(options);
 
         this.container = d3.select(selector);
         this.container.attr('class', 'neo4jd3')
@@ -91,6 +78,20 @@ export default class Neo4jd3 {
         }
 
         this.listeners = new Map();
+    }
+
+    private initOptions(options: any) {
+        merge(this.options, options);
+
+        this.initIconMap();
+        this.initImageMap();
+
+        if (this.options.icons) {
+            this.options.showIcons = true;
+        }
+        if (!this.options.minCollision) {
+            this.options.minCollision = this.options.nodeRadius * 2;
+        }
     }
 
     private appendGraph(container) {
