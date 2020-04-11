@@ -192,7 +192,7 @@ export default class Neo4jd3 {
             elem.style('background-color', _ => {
                 return this.options.nodeOutlineFillColor
                     ? this.options.nodeOutlineFillColor
-                    : (isNode ? this.class2color(property) : this.defaultColor());
+                    : (isNode ? this.classToColor(property) : this.defaultColor());
             })
                 .style('border-color', _ => {
                     return this.options.nodeOutlineFillColor
@@ -326,7 +326,7 @@ export default class Neo4jd3 {
             .style('fill', d => {
                 return this.options.nodeOutlineFillColor
                     ? this.options.nodeOutlineFillColor
-                    : this.class2color(d.labels[0]);
+                    : this.classToColor(d.labels[0]);
             })
             .style('stroke', d => {
                 return this.options.nodeOutlineFillColor
@@ -416,11 +416,10 @@ export default class Neo4jd3 {
         };
     }
 
-    private class2color(cls) {
+    private classToColor(cls) {
         let color = this.classes2colors[cls];
 
         if (!color) {
-//            color = options.colors[Math.min(numClasses, options.colors.length - 1)];
             color = this.options.colors[this.numClasses % this.options.colors.length];
             this.classes2colors[cls] = color;
             this.numClasses++;
@@ -430,7 +429,7 @@ export default class Neo4jd3 {
     }
 
     private class2darkenColor(cls) {
-        return d3.rgb(this.class2color(cls)).darker(1);
+        return d3.rgb(this.classToColor(cls)).darker(1);
     }
 
     private clearInfo() {
