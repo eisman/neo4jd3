@@ -852,14 +852,14 @@ export default class Neo4jd3 {
     }
 
     private zoomFit() {
-        let bounds = this.svg.node().getBBox(),
-            parent = this.svg.node().parentElement.parentElement,
-            fullWidth = parent.clientWidth,
-            fullHeight = parent.clientHeight,
-            width = bounds.width,
-            height = bounds.height,
-            midX = bounds.x + width / 2,
-            midY = bounds.y + height / 2;
+        const bounds = this.svg.node().getBBox();
+        const parent = this.svg.node().parentElement.parentElement;
+        const fullWidth = parent.clientWidth;
+        const fullHeight = parent.clientHeight;
+        const width = bounds.width;
+        const height = bounds.height;
+        const midX = bounds.x + width / 2;
+        const midY = bounds.y + height / 2;
 
         if (width === 0 || height === 0) {
             return; // nothing to fit
@@ -868,7 +868,6 @@ export default class Neo4jd3 {
         this.svgScale = 0.85 / Math.max(width / fullWidth, height / fullHeight);
         this.svgTranslate = [fullWidth / 2 - this.svgScale * midX, fullHeight / 2 - this.svgScale * midY];
 
-        this.svg.attr('transform', 'translate(' + this.svgTranslate[0] + ', ' + this.svgTranslate[1] + ') scale(' + this.svgScale + ')');
-//        smoothTransform(svgTranslate, svgScale);
+        this.svg.attr('transform', `translate(${this.svgTranslate[0]}, ${this.svgTranslate[1]}) scale(${this.svgScale})`);
     }
 }
