@@ -562,19 +562,16 @@ export default class Neo4jd3 {
     }
 
     private initImageMap() {
-        let key, keys;
+        this.options.images.keys.forEach(key => {
+            const keys = key.split('|');
+            const tag = keys[0];
 
-        for (key in this.options.images) {
-            if (this.options.images.hasOwnProperty(key)) {
-                keys = key.split('|');
-
-                if (!this.options.imageMap[keys[0]]) {
-                    this.options.imageMap[keys[0]] = [key];
-                } else {
-                    this.options.imageMap[keys[0]].push(key);
-                }
+            if (!this.options.imageMap[tag]) {
+                this.options.imageMap[tag] = [key];
+            } else {
+                this.options.imageMap[tag].push(key);
             }
-        }
+        })
     }
 
     private initSimulation() {
