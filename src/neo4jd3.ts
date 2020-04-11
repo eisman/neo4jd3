@@ -324,16 +324,16 @@ export default class Neo4jd3 {
             .attr('class', 'outline')
             .attr('r', this.options.nodeRadius)
             .style('fill', d => {
-                return this.options.nodeOutlineFillColor ? this.options.nodeOutlineFillColor : this.class2color(d.labels[0]);
+                return this.options.nodeOutlineFillColor
+                    ? this.options.nodeOutlineFillColor
+                    : this.class2color(d.labels[0]);
             })
             .style('stroke', d => {
                 return this.options.nodeOutlineFillColor
                     ? this.class2darkenColor(this.options.nodeOutlineFillColor)
                     : this.class2darkenColor(d.labels[0]);
             })
-            .append('title').text(d => {
-                return this.toString(d);
-            });
+            .append('title').text(d => this.toString(d));
     }
 
     private appendRingToNode(node) {
