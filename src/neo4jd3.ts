@@ -182,15 +182,17 @@ export default class Neo4jd3 {
     }
 
     private appendInfoElement(cls, isNode, property, value = null) {
-        let elem = this.info.append('a');
+        const elem = this.info.append('a');
 
         elem.attr('href', '#')
             .attr('class', cls)
-            .html('<strong>' + property + '</strong>' + (value ? (': ' + value) : ''));
+            .html(`<strong>${property}</strong>${value ? (': ' + value) : ''}`);
 
         if (!value) {
             elem.style('background-color', _ => {
-                return this.options.nodeOutlineFillColor ? this.options.nodeOutlineFillColor : (isNode ? this.class2color(property) : this.defaultColor());
+                return this.options.nodeOutlineFillColor
+                    ? this.options.nodeOutlineFillColor
+                    : (isNode ? this.class2color(property) : this.defaultColor());
             })
                 .style('border-color', _ => {
                     return this.options.nodeOutlineFillColor
