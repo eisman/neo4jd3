@@ -18,7 +18,6 @@ export default class Neo4jd3 {
     private relationshipText;
     private relationships = [];
 
-    private selector;
     private readonly simulation;
 
     private svg;
@@ -72,10 +71,8 @@ export default class Neo4jd3 {
 
         this.initImageMap();
 
-        this.selector = selector;
 
         this.container = d3.select(selector);
-
         this.container.attr('class', 'neo4jd3')
             .html('');
 
