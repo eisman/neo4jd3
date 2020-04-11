@@ -819,7 +819,7 @@ export default class Neo4jd3 {
             .data(this.nodes, function (d) {
                 return d.id;
             });
-        let nodeEnter = this.appendNodeToGraph();
+        const nodeEnter = this.appendNodeToGraph();
         this.node = nodeEnter.merge(this.node);
     }
 
