@@ -576,18 +576,14 @@ export default class Neo4jd3 {
 
     private initSimulation() {
         return d3.forceSimulation()
-            //                           .velocityDecay(0.8)
-            //                           .force('x', d3.force().strength(0.002))
-            //                           .force('y', d3.force().strength(0.002))
-            .force('collide', d3.forceCollide().radius(() => {
-                return this.options.minCollision;
-            }).iterations(2))
+            .force('collide', d3.forceCollide().radius(() => this.options.minCollision)
+                .iterations(2))
             .force('charge', d3.forceManyBody())
-            .force('link', d3.forceLink().id(d => {
-                return (d as any).id;
-                // return d.index.toString();
-            }))
-            .force('center', d3.forceCenter(this.svg.node().parentElement.parentElement.clientWidth / 2, this.svg.node().parentElement.parentElement.clientHeight / 2))
+            .force('link', d3.forceLink().id(d => (d as any).id))
+            .force('center', d3.forceCenter(
+                this.svg.node().parentElement.parentElement.clientWidth / 2,
+                this.svg.node().parentElement.parentElement.clientHeight / 2
+            ))
             .on('tick', () => {
                 this.tick();
             })
