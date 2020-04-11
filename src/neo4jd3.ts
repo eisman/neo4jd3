@@ -5,9 +5,8 @@ import {contains, merge} from './utils';
 import * as math from "./math";
 
 export default class Neo4jd3 {
-    private readonly container;
-
-    private readonly info;
+    private container;
+    private info;
 
     private node;
     private nodes = [];
@@ -59,15 +58,7 @@ export default class Neo4jd3 {
     constructor(selector: string, options: any) {
         this.initOptions(options);
 
-        this.container = d3.select(selector);
-        this.container.attr('class', 'neo4jd3')
-            .html('');
-
-        if (this.options.infoPanel) {
-            this.info = Neo4jd3.appendInfoPanel(this.container);
-        }
-
-        this.appendGraph(this.container);
+        this.initGraph(selector);
 
         this.simulation = this.initSimulation();
 
@@ -78,6 +69,17 @@ export default class Neo4jd3 {
         }
 
         this.listeners = new Map();
+    }
+
+    private initGraph(selector: string) {
+        this.container = d3.select(selector);
+        this.container.attr('class', 'neo4jd3')
+            .html('');
+
+        if (this.options.infoPanel) {
+            this.info = Neo4jd3.appendInfoPanel(this.container);
+        }
+        this.appendGraph(this.container);
     }
 
     private initOptions(options: any) {
