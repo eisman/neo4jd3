@@ -225,8 +225,7 @@ export default class Neo4jd3 {
         return this.node.enter()
             .append('g')
             .attr('class', d => {
-                let highlight, i,
-                    classes = 'node';
+                let classes = 'node';
 
                 if (this.icon(d)) {
                     classes += ' node-icon';
@@ -237,10 +236,12 @@ export default class Neo4jd3 {
                 }
 
                 if (this.options.highlight) {
-                    for (i = 0; i < this.options.highlight.length; i++) {
-                        highlight = this.options.highlight[i];
+                    for (let i = 0; i < this.options.highlight.length; i++) {
+                        const highlight = this.options.highlight[i];
+                        const isHighlighted = d.labels[0] === highlight.class &&
+                            d.properties[highlight.property] === highlight.value;
 
-                        if (d.labels[0] === highlight.class && d.properties[highlight.property] === highlight.value) {
+                        if (isHighlighted) {
                             classes += ' node-highlighted';
                             break;
                         }
