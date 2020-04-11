@@ -358,7 +358,7 @@ export default class Neo4jd3 {
     }
 
     appendRandomDataToNode(d, maxNodesToGenerate) {
-        let data = this.randomD3Data(d, maxNodesToGenerate);
+        const data = this.randomD3Data(d, maxNodesToGenerate);
         this.updateWithNeo4jData(data);
     }
 
