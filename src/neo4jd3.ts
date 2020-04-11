@@ -19,7 +19,7 @@ export default class Neo4jd3 {
     private relationships = [];
 
     private selector;
-    private simulation;
+    private readonly simulation;
 
     private svg;
     private svgNodes;
