@@ -551,9 +551,9 @@ export default class Neo4jd3 {
     }
 
     private initIconMap() {
-        Object.keys(this.options.iconMap).forEach(key => {
-            let keys = key.split(','),
-                value = this.options.iconMap[key];
+        this.options.iconMap.keys.forEach(iconMapKey => {
+            const keys = iconMapKey.split(',');
+            const value = this.options.iconMap[iconMapKey];
 
             keys.forEach(key => {
                 this.options.iconMap[key] = value;
