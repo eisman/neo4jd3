@@ -403,10 +403,10 @@ export default class Neo4jd3 {
     }
 
     private appendRelationshipToGraph() {
-        let relationship = this.appendRelationship(),
-            text = Neo4jd3.appendTextToRelationship(relationship),
-            outline = Neo4jd3.appendOutlineToRelationship(relationship),
-            overlay = Neo4jd3.appendOverlayToRelationship(relationship);
+        const relationship = this.appendRelationship();
+        const text = Neo4jd3.appendTextToRelationship(relationship);
+        const outline = Neo4jd3.appendOutlineToRelationship(relationship);
+        const overlay = Neo4jd3.appendOverlayToRelationship(relationship);
 
         return {
             outline: outline,
