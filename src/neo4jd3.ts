@@ -105,8 +105,8 @@ export default class Neo4jd3 {
             .attr('height', '100%')
             .attr('class', 'neo4jd3-graph')
             .call(d3.zoom().on('zoom', () => {
-                let scale = d3.event.transform.k,
-                    translate = [d3.event.transform.x, d3.event.transform.y];
+                let scale = d3.event.transform.k;
+                let translate = [d3.event.transform.x, d3.event.transform.y];
 
                 if (this.svgTranslate) {
                     translate[0] += this.svgTranslate[0];
@@ -117,7 +117,7 @@ export default class Neo4jd3 {
                     scale *= this.svgScale;
                 }
 
-                this.svg.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
+                this.svg.attr('transform', `translate(${translate[0]}, ${translate[1]}) scale(${scale})`);
             }))
             .on('dblclick.zoom', null)
             .on('click', _ => {
