@@ -14,13 +14,13 @@ export function neo4jDataToD3Data(data) {
                 }
             });
 
-            data.graph.relationships.forEach(function (relationship) {
+            data.graph.relationships.forEach(relationship => {
                 relationship.source = relationship.startNode;
                 relationship.target = relationship.endNode;
                 graph.relationships.push(relationship);
             });
 
-            data.graph.relationships.sort(function (a, b) {
+            data.graph.relationships.sort((a, b) => {
                 if (a.source > b.source) {
                     return 1;
                 } else if (a.source < b.source) {
@@ -39,7 +39,11 @@ export function neo4jDataToD3Data(data) {
             });
 
             for (let i = 0; i < data.graph.relationships.length; i++) {
-                if (i !== 0 && data.graph.relationships[i].source === data.graph.relationships[i - 1].source && data.graph.relationships[i].target === data.graph.relationships[i - 1].target) {
+                const isLinkNum = i !== 0 &&
+                    data.graph.relationships[i].source === data.graph.relationships[i - 1].source &&
+                    data.graph.relationships[i].target === data.graph.relationships[i - 1].target;
+
+                if (isLinkNum) {
                     data.graph.relationships[i].linknum = data.graph.relationships[i - 1].linknum + 1;
                 } else {
                     data.graph.relationships[i].linknum = 1;
