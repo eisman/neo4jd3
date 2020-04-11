@@ -837,7 +837,7 @@ export default class Neo4jd3 {
                 return d.id;
             });
 
-        let relationshipEnter = this.appendRelationshipToGraph();
+        const relationshipEnter = this.appendRelationshipToGraph();
 
         this.relationship = relationshipEnter.relationship.merge(this.relationship);
 
