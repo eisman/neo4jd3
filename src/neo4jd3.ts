@@ -299,24 +299,24 @@ export default class Neo4jd3 {
     }
 
     private appendNodeToGraph() {
-        let n = this.appendNode();
+        const node = this.appendNode();
 
-        this.appendRingToNode(n);
-        this.appendOutlineToNode(n);
+        this.appendRingToNode(node);
+        this.appendOutlineToNode(node);
 
         if (this.options.icons) {
-            this.appendTextToNode(n);
+            this.appendTextToNode(node);
         }
 
         if (this.options.images) {
-            this.appendImageToNode(n);
+            this.appendImageToNode(node);
         }
 
         if (this.options.pictograms) {
-            this.appendPictogramToNode(n);
+            this.appendPictogramToNode(node);
         }
 
-        return n;
+        return node;
     }
 
     private appendOutlineToNode(node) {
