@@ -16,7 +16,7 @@
 * Dynamic graph update (e.g. double click a node to expand it).
 * Highlight nodes on init.
 * Relationship auto-orientation.
-* Zoom, pan, auto fit.
+* Zoom, pan,  auto fit.
 * Compatible with D3.js v4. 
 
 ## Building
