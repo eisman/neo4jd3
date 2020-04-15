@@ -17,7 +17,7 @@
 * Highlight nodes on init.
 * Relationship auto-orientation.
 * Zoom, pan, auto fit.
-* Compatible with D3.js v4.
+* Compatible with D3.js v4. 
 
 ## Building
 
