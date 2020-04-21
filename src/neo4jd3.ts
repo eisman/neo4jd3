@@ -1,6 +1,4 @@
 import * as d3 from 'd3';
-import fontAwesomeIcons from "./icons";
-import colors from "./colors";
 import {merge} from './utils';
 import * as math from "./math";
 import * as converters from "./converters";
@@ -8,27 +6,6 @@ import NetworkData from "./networkData";
 
 export default class Neo4jd3 {
     private state: NetworkData;
-
-    private options: any = {
-        arrowSize: 4,
-        colors: colors,
-        highlight: undefined,
-        iconMap: fontAwesomeIcons,
-        icons: undefined,
-        imageMap: {},
-        pictograms: {},
-        pictogramsLook: {},
-        images: undefined,
-        infoPanel: true,
-        minCollision: undefined,
-        neo4jData: undefined,
-        neo4jDataUrl: undefined,
-        nodeOutlineFillColor: undefined,
-        nodeRadius: 25,
-        relationshipColor: '#a5abb6',
-        zoomFit: false,
-        useId: true,
-    };
 
     readonly VERSION = '0.01';
 
@@ -44,10 +21,10 @@ export default class Neo4jd3 {
     }
 
     private loadData() {
-        if (this.options.neo4jData) {
+        if (this.state.options.neo4jData) {
             this.loadNeo4jData();
-        } else if (this.options.neo4jDataUrl) {
-            this.loadNeo4jDataFromUrl(this.options.neo4jDataUrl);
+        } else if (this.state.options.neo4jDataUrl) {
+            this.loadNeo4jDataFromUrl(this.state.options.neo4jDataUrl);
         }
     }
 
@@ -56,23 +33,23 @@ export default class Neo4jd3 {
         this.state.container.attr('class', 'neo4jd3')
             .html('');
 
-        if (this.options.infoPanel) {
+        if (this.state.options.infoPanel) {
             this.state.info = Neo4jd3.appendInfoPanel(this.state.container);
         }
         this.appendGraph(this.state.container);
     }
 
     private initOptions(options: any) {
-        merge(this.options, options);
+        merge(this.state.options, options);
 
         this.initIconMap();
         this.initImageMap();
 
-        if (this.options.icons) {
-            this.options.showIcons = true;
+        if (this.state.options.icons) {
+            this.state.options.showIcons = true;
         }
-        if (!this.options.minCollision) {
-            this.options.minCollision = this.options.nodeRadius * 2;
+        if (!this.state.options.minCollision) {
+            this.state.options.minCollision = this.state.options.nodeRadius * 2;
         }
     }
 
@@ -123,13 +100,13 @@ export default class Neo4jd3 {
     }
 
     private appendPictogramToNode(node) {
-        const options = this.options;
+        const options = this.state.options;
 
-        const startX = this.options.pictogramsLook?.x || 5;
-        const startY = this.options.pictogramsLook?.y || 0;
-        const pictogramWidth = this.options.pictogramsLook?.width || 24;
-        const pictogramHeight = this.options.pictogramsLook?.height || 24;
-        const offset = this.options.pictogramsLook?.offset || 0;
+        const startX = this.state.options.pictogramsLook?.x || 5;
+        const startY = this.state.options.pictogramsLook?.y || 0;
+        const pictogramWidth = this.state.options.pictogramsLook?.width || 24;
+        const pictogramHeight = this.state.options.pictogramsLook?.height || 24;
+        const offset = this.state.options.pictogramsLook?.offset || 0;
 
         return node.each(function (d) {
             if (!d.hasOwnProperty("pictograms")) return;
@@ -166,20 +143,20 @@ export default class Neo4jd3 {
 
         if (!value) {
             elem.style('background-color', _ => {
-                return this.options.nodeOutlineFillColor
-                    ? this.options.nodeOutlineFillColor
+                return this.state.options.nodeOutlineFillColor
+                    ? this.state.options.nodeOutlineFillColor
                     : (isNode ? this.classToColor(property) : this.defaultColor());
             })
                 .style('border-color', _ => {
-                    return this.options.nodeOutlineFillColor
-                        ? this.classToDarkenColor(this.options.nodeOutlineFillColor)
+                    return this.state.options.nodeOutlineFillColor
+                        ? this.classToDarkenColor(this.state.options.nodeOutlineFillColor)
                         : (isNode
                             ? this.classToDarkenColor(property)
                             : this.defaultDarkenColor());
                 })
                 .style('color', _ => {
-                    return this.options.nodeOutlineFillColor
-                        ? this.classToDarkenColor(this.options.nodeOutlineFillColor)
+                    return this.state.options.nodeOutlineFillColor
+                        ? this.classToDarkenColor(this.state.options.nodeOutlineFillColor)
                         : '#fff';
                 });
         }
@@ -211,9 +188,9 @@ export default class Neo4jd3 {
                     classes += ' node-image';
                 }
 
-                if (this.options.highlight) {
-                    for (let i = 0; i < this.options.highlight.length; i++) {
-                        const highlight = this.options.highlight[i];
+                if (this.state.options.highlight) {
+                    for (let i = 0; i < this.state.options.highlight.length; i++) {
+                        const highlight = this.state.options.highlight[i];
                         const isHighlighted = d.labels[0] === highlight.class &&
                             d.properties[highlight.property] === highlight.value;
 
@@ -233,8 +210,8 @@ export default class Neo4jd3 {
                     this.updateInfo(d);
                 }
 
-                if (typeof this.options.onNodeClick === 'function') {
-                    this.options.onNodeClick(d);
+                if (typeof this.state.options.onNodeClick === 'function') {
+                    this.state.options.onNodeClick(d);
                 }
 
                 if (this.state.listeners.has('click')) {
@@ -242,8 +219,8 @@ export default class Neo4jd3 {
                 }
             })
             .on('dblclick', d => {
-                if (typeof this.options.onNodeDoubleClick === 'function') {
-                    this.options.onNodeDoubleClick(d);
+                if (typeof this.state.options.onNodeDoubleClick === 'function') {
+                    this.state.options.onNodeDoubleClick(d);
                 }
 
                 if (this.state.listeners.has('dblclick')) {
@@ -251,8 +228,8 @@ export default class Neo4jd3 {
                 }
             })
             .on('mouseenter', d => {
-                if (typeof this.options.onNodeMouseEnter === 'function') {
-                    this.options.onNodeMouseEnter(d);
+                if (typeof this.state.options.onNodeMouseEnter === 'function') {
+                    this.state.options.onNodeMouseEnter(d);
                 }
 
                 if (this.state.listeners.has('mouseenter')) {
@@ -260,8 +237,8 @@ export default class Neo4jd3 {
                 }
             })
             .on('mouseleave', d => {
-                if (typeof this.options.onNodeMouseLeave === 'function') {
-                    this.options.onNodeMouseLeave(d);
+                if (typeof this.state.options.onNodeMouseLeave === 'function') {
+                    this.state.options.onNodeMouseLeave(d);
                 }
 
                 if (this.state.listeners.has('mouseleave')) {
@@ -280,15 +257,15 @@ export default class Neo4jd3 {
         this.appendRingToNode(node);
         this.appendOutlineToNode(node);
 
-        if (this.options.icons) {
+        if (this.state.options.icons) {
             this.appendTextToNode(node);
         }
 
-        if (this.options.images) {
+        if (this.state.options.images) {
             this.appendImageToNode(node);
         }
 
-        if (this.options.pictograms) {
+        if (this.state.options.pictograms) {
             this.appendPictogramToNode(node);
         }
 
@@ -298,15 +275,15 @@ export default class Neo4jd3 {
     private appendOutlineToNode(node) {
         return node.append('circle')
             .attr('class', 'outline')
-            .attr('r', this.options.nodeRadius)
+            .attr('r', this.state.options.nodeRadius)
             .style('fill', d => {
-                return this.options.nodeOutlineFillColor
-                    ? this.options.nodeOutlineFillColor
+                return this.state.options.nodeOutlineFillColor
+                    ? this.state.options.nodeOutlineFillColor
                     : this.classToColor(d.labels[0]);
             })
             .style('stroke', d => {
-                return this.options.nodeOutlineFillColor
-                    ? this.classToDarkenColor(this.options.nodeOutlineFillColor)
+                return this.state.options.nodeOutlineFillColor
+                    ? this.classToDarkenColor(this.state.options.nodeOutlineFillColor)
                     : this.classToDarkenColor(d.labels[0]);
             })
             .append('title').text(d => this.toString(d));
@@ -315,7 +292,7 @@ export default class Neo4jd3 {
     private appendRingToNode(node) {
         return node.append('circle')
             .attr('class', 'ring')
-            .attr('r', this.options.nodeRadius * 1.16)
+            .attr('r', this.state.options.nodeRadius * 1.16)
             .append('title').text(d => this.toString(d));
     }
 
@@ -323,10 +300,10 @@ export default class Neo4jd3 {
         return node.append('text')
             .attr('class', d => `text${this.icon(d) ? ' icon' : ''}`)
             .attr('fill', '#ffffff')
-            .attr('font-size', d => this.icon(d) ? `${this.options.nodeRadius}px` : '10px')
+            .attr('font-size', d => this.icon(d) ? `${this.state.options.nodeRadius}px` : '10px')
             .attr('pointer-events', 'none')
             .attr('text-anchor', 'middle')
-            .attr('y', d => this.icon(d) ? `${Math.round(this.options.nodeRadius * 0.32)}px` : '4px')
+            .attr('y', d => this.icon(d) ? `${Math.round(this.state.options.nodeRadius * 0.32)}px` : '4px')
             .html(d => {
                 const _icon = this.icon(d);
                 return _icon ? '&#x' + _icon : d.id;
@@ -343,8 +320,8 @@ export default class Neo4jd3 {
             .append('g')
             .attr('class', 'relationship')
             .on('dblclick', d => {
-                if (typeof this.options.onRelationshipDoubleClick === 'function') {
-                    this.options.onRelationshipDoubleClick(d);
+                if (typeof this.state.options.onRelationshipDoubleClick === 'function') {
+                    this.state.options.onRelationshipDoubleClick(d);
                 }
             })
             .on('click', d => {
@@ -396,7 +373,7 @@ export default class Neo4jd3 {
         let color = this.state.classes2colors[cls];
 
         if (!color) {
-            color = this.options.colors[this.state.numClasses % this.options.colors.length];
+            color = this.state.options.colors[this.state.numClasses % this.state.options.colors.length];
             this.state.classes2colors[cls] = color;
             this.state.numClasses++;
         }
@@ -413,11 +390,11 @@ export default class Neo4jd3 {
     }
 
     private defaultColor() {
-        return this.options.relationshipColor;
+        return this.state.options.relationshipColor;
     }
 
     private defaultDarkenColor() {
-        return d3.rgb(this.options.colors[this.options.colors.length - 1]).darker(1);
+        return d3.rgb(this.state.options.colors[this.state.options.colors.length - 1]).darker(1);
     }
 
     disableForces() {
@@ -435,8 +412,8 @@ export default class Neo4jd3 {
             this.state.simulation.alphaTarget(0);
         }
 
-        if (typeof this.options.onNodeDragEnd === 'function') {
-            this.options.onNodeDragEnd(d);
+        if (typeof this.state.options.onNodeDragEnd === 'function') {
+            this.state.options.onNodeDragEnd(d);
         }
     }
 
@@ -452,21 +429,21 @@ export default class Neo4jd3 {
         d.fx = d.x;
         d.fy = d.y;
 
-        if (typeof this.options.onNodeDragStart === 'function') {
-            this.options.onNodeDragStart(d);
+        if (typeof this.state.options.onNodeDragStart === 'function') {
+            this.state.options.onNodeDragStart(d);
         }
     }
 
     private icon(d) {
         let code;
 
-        if (this.options.iconMap && this.options.showIcons && this.options.icons) {
-            if (this.options.icons[d.labels[0]] && this.options.iconMap[this.options.icons[d.labels[0]]]) {
-                code = this.options.iconMap[this.options.icons[d.labels[0]]];
-            } else if (this.options.iconMap[d.labels[0]]) {
-                code = this.options.iconMap[d.labels[0]];
-            } else if (this.options.icons[d.labels[0]]) {
-                code = this.options.icons[d.labels[0]];
+        if (this.state.options.iconMap && this.state.options.showIcons && this.state.options.icons) {
+            if (this.state.options.icons[d.labels[0]] && this.state.options.iconMap[this.state.options.icons[d.labels[0]]]) {
+                code = this.state.options.iconMap[this.state.options.icons[d.labels[0]]];
+            } else if (this.state.options.iconMap[d.labels[0]]) {
+                code = this.state.options.iconMap[d.labels[0]];
+            } else if (this.state.options.icons[d.labels[0]]) {
+                code = this.state.options.icons[d.labels[0]];
             }
         }
 
@@ -476,8 +453,8 @@ export default class Neo4jd3 {
     private image(d) {
         let value, property, label, img;
 
-        if (this.options.images) {
-            const imagesForLabel = this.options.imageMap[d.labels[0]];
+        if (this.state.options.images) {
+            const imagesForLabel = this.state.options.imageMap[d.labels[0]];
 
             if (imagesForLabel) {
                 let imgLevel = 0;
@@ -500,7 +477,7 @@ export default class Neo4jd3 {
                         (!property || d.properties[property] !== undefined) &&
                         (!value || d.properties[property] === value)) {
                         if (labelPropertyValue.length > imgLevel) {
-                            img = this.options.images[imagesForLabel[i]];
+                            img = this.state.options.images[imagesForLabel[i]];
                             imgLevel = labelPropertyValue.length;
                         }
                     }
@@ -512,32 +489,32 @@ export default class Neo4jd3 {
     }
 
     private initIconMap() {
-        Object.keys(this.options.iconMap).forEach(iconMapKey => {
+        Object.keys(this.state.options.iconMap).forEach(iconMapKey => {
             const keys = iconMapKey.split(',');
-            const value = this.options.iconMap[iconMapKey];
+            const value = this.state.options.iconMap[iconMapKey];
 
             keys.forEach(key => {
-                this.options.iconMap[key] = value;
+                this.state.options.iconMap[key] = value;
             });
         });
     }
 
     private initImageMap() {
-        Object.keys(this.options.images).forEach(key => {
+        Object.keys(this.state.options.images).forEach(key => {
             const keys = key.split('|');
             const tag = keys[0];
 
-            if (!this.options.imageMap[tag]) {
-                this.options.imageMap[tag] = [key];
+            if (!this.state.options.imageMap[tag]) {
+                this.state.options.imageMap[tag] = [key];
             } else {
-                this.options.imageMap[tag].push(key);
+                this.state.options.imageMap[tag].push(key);
             }
         })
     }
 
     private initSimulation() {
         return d3.forceSimulation()
-            .force('collide', d3.forceCollide().radius(() => this.options.minCollision)
+            .force('collide', d3.forceCollide().radius(() => this.state.options.minCollision)
                 .iterations(2))
             .force('charge', d3.forceManyBody())
             .force('link', d3.forceLink().id(d => (d as any).id))
@@ -549,7 +526,7 @@ export default class Neo4jd3 {
                 this.tick();
             })
             .on('end', () => {
-                if (this.options.zoomFit && !this.state.justLoaded) {
+                if (this.state.options.zoomFit && !this.state.justLoaded) {
                     this.state.justLoaded = true;
                     this.zoomFit();
                 }
@@ -560,7 +537,7 @@ export default class Neo4jd3 {
         this.state.nodes = [];
         this.state.relationships = [];
 
-        this.updateWithNeo4jData(this.options.neo4jData);
+        this.updateWithNeo4jData(this.state.options.neo4jData);
     }
 
     private loadNeo4jDataFromUrl(neo4jDataUrl) {
@@ -591,7 +568,7 @@ export default class Neo4jd3 {
     }
 
     private randomLabel() {
-        const icons = Object.keys(this.options.iconMap);
+        const icons = Object.keys(this.state.options.iconMap);
         return icons[icons.length * Math.random() << 0];
     }
 
@@ -651,38 +628,38 @@ export default class Neo4jd3 {
                     },
                     n = math.unitaryNormalVector(d.source, d.target),
                     rotatedPointA1 = math.rotatePoint(center, {
-                        x: (network.options.nodeRadius + 1) * u.x - n.x,
-                        y: (network.options.nodeRadius + 1) * u.y - n.y
+                        x: (network.state.options.nodeRadius + 1) * u.x - n.x,
+                        y: (network.state.options.nodeRadius + 1) * u.y - n.y
                     }, angle),
                     rotatedPointB1 = math.rotatePoint(center, {x: textMargin.x - n.x, y: textMargin.y - n.y}, angle),
                     rotatedPointC1 = math.rotatePoint(center, {x: textMargin.x, y: textMargin.y}, angle),
                     rotatedPointD1 = math.rotatePoint(center, {
-                        x: (network.options.nodeRadius + 1) * u.x,
-                        y: (network.options.nodeRadius + 1) * u.y
+                        x: (network.state.options.nodeRadius + 1) * u.x,
+                        y: (network.state.options.nodeRadius + 1) * u.y
                     }, angle),
                     rotatedPointA2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - textMargin.x - n.x,
                         y: d.target.y - d.source.y - textMargin.y - n.y
                     }, angle),
                     rotatedPointB2 = math.rotatePoint(center, {
-                        x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - n.x - u.x * network.options.arrowSize,
-                        y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - n.y - u.y * network.options.arrowSize
+                        x: d.target.x - d.source.x - (network.state.options.nodeRadius + 1) * u.x - n.x - u.x * network.state.options.arrowSize,
+                        y: d.target.y - d.source.y - (network.state.options.nodeRadius + 1) * u.y - n.y - u.y * network.state.options.arrowSize
                     }, angle),
                     rotatedPointC2 = math.rotatePoint(center, {
-                        x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * network.options.arrowSize,
-                        y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * network.options.arrowSize
+                        x: d.target.x - d.source.x - (network.state.options.nodeRadius + 1) * u.x - n.x + (n.x - u.x) * network.state.options.arrowSize,
+                        y: d.target.y - d.source.y - (network.state.options.nodeRadius + 1) * u.y - n.y + (n.y - u.y) * network.state.options.arrowSize
                     }, angle),
                     rotatedPointD2 = math.rotatePoint(center, {
-                        x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x,
-                        y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y
+                        x: d.target.x - d.source.x - (network.state.options.nodeRadius + 1) * u.x,
+                        y: d.target.y - d.source.y - (network.state.options.nodeRadius + 1) * u.y
                     }, angle),
                     rotatedPointE2 = math.rotatePoint(center, {
-                        x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x + (-n.x - u.x) * network.options.arrowSize,
-                        y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y + (-n.y - u.y) * network.options.arrowSize
+                        x: d.target.x - d.source.x - (network.state.options.nodeRadius + 1) * u.x + (-n.x - u.x) * network.state.options.arrowSize,
+                        y: d.target.y - d.source.y - (network.state.options.nodeRadius + 1) * u.y + (-n.y - u.y) * network.state.options.arrowSize
                     }, angle),
                     rotatedPointF2 = math.rotatePoint(center, {
-                        x: d.target.x - d.source.x - (network.options.nodeRadius + 1) * u.x - u.x * network.options.arrowSize,
-                        y: d.target.y - d.source.y - (network.options.nodeRadius + 1) * u.y - u.y * network.options.arrowSize
+                        x: d.target.x - d.source.x - (network.state.options.nodeRadius + 1) * u.x - u.x * network.state.options.arrowSize,
+                        y: d.target.y - d.source.y - (network.state.options.nodeRadius + 1) * u.y - u.y * network.state.options.arrowSize
                     }, angle),
                     rotatedPointG2 = math.rotatePoint(center, {
                         x: d.target.x - d.source.x - textMargin.x,
@@ -779,7 +756,7 @@ export default class Neo4jd3 {
             this.appendInfoElementRelationship('class', d.type);
         }
 
-        if (this.options.useId) {
+        if (this.state.options.useId) {
             this.appendInfoElementProperty('property', '&lt;id&gt;', d.id);
         }
 

@@ -1,3 +1,6 @@
+import colors from "./colors";
+import fontAwesomeIcons from "./icons";
+
 export default class NetworkData {
     container;
     info;
@@ -25,4 +28,25 @@ export default class NetworkData {
     numClasses = 0;
 
     listeners: Map<string, Array<(any) => void>>;
+
+    options: any = {
+        arrowSize: 4,
+        colors: colors,
+        highlight: undefined,
+        iconMap: fontAwesomeIcons,
+        icons: undefined,
+        imageMap: {},
+        pictograms: {},
+        pictogramsLook: {},
+        images: undefined,
+        infoPanel: true,
+        minCollision: undefined,
+        neo4jData: undefined,
+        neo4jDataUrl: undefined,
+        nodeOutlineFillColor: undefined,
+        nodeRadius: 25,
+        relationshipColor: '#a5abb6',
+        zoomFit: false,
+        useId: true,
+    };
 }
