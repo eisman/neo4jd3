@@ -20,14 +20,16 @@ export default class Neo4jd3 {
     readonly VERSION = '0.01';
 
     constructor(selector: string, options: any) {
-        this.initOptions(options);
-        this.initGraph(selector);
+        this.state = new NetworkState();
 
         this.ticker = new TickerManager(this.state);
         this.helper = new StatefulHelper(this.state);
         this.infoManager = new Info(this.state, this.helper);
         this.nodeManager = new Nodes(this.state, this.helper, this.infoManager);
         this.relationshipsManager = new Relationships(this.state, this.helper, this.infoManager);
+
+        this.initOptions(options);
+        this.initGraph(selector);
 
         this.state.simulation = this.initSimulation();
 
