@@ -1,7 +1,7 @@
 import NetworkState from "../state";
 import StatefulHelper from "./statefulHelper";
 
-export default class Info {
+export default class InfoManager {
     private readonly state: NetworkState;
     private readonly helper: StatefulHelper;
 

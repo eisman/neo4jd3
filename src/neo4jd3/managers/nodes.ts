@@ -1,14 +1,14 @@
 import NetworkState from "../state";
 import * as d3 from "d3";
 import StatefulHelper from "./statefulHelper";
-import Info from "./info";
+import InfoManager from "./info";
 
-export default class Nodes {
+export default class NodesManager {
     private readonly state: NetworkState;
     private readonly helper: StatefulHelper;
-    private readonly infoManager: Info;
+    private readonly infoManager: InfoManager;
 
-    constructor(state: NetworkState, helper: StatefulHelper, infoManager: Info) {
+    constructor(state: NetworkState, helper: StatefulHelper, infoManager: InfoManager) {
         this.state = state;
         this.helper = helper;
         this.infoManager = infoManager;

@@ -4,18 +4,18 @@ import * as converters from "../converters";
 import NetworkState from "./state";
 import TickerManager from "./managers/tick";
 import StatefulHelper from "./managers/statefulHelper";
-import Nodes from './managers/nodes';
-import Info from "./managers/info";
-import Relationships from "./managers/relationships";
+import NodesManager from './managers/nodes';
+import InfoManager from "./managers/info";
+import RelationshipsManager from "./managers/relationships";
 
 export default class Neo4jd3 {
     private readonly state: NetworkState;
 
     private readonly ticker: TickerManager;
     private readonly helper: StatefulHelper;
-    private readonly nodeManager: Nodes;
-    private readonly infoManager: Info;
-    private readonly relationshipsManager: Relationships;
+    private readonly nodeManager: NodesManager;
+    private readonly infoManager: InfoManager;
+    private readonly relationshipsManager: RelationshipsManager;
 
     readonly VERSION = '0.01';
 
@@ -24,9 +24,9 @@ export default class Neo4jd3 {
 
         this.ticker = new TickerManager(this.state);
         this.helper = new StatefulHelper(this.state);
-        this.infoManager = new Info(this.state, this.helper);
-        this.nodeManager = new Nodes(this.state, this.helper, this.infoManager);
-        this.relationshipsManager = new Relationships(this.state, this.helper, this.infoManager);
+        this.infoManager = new InfoManager(this.state, this.helper);
+        this.nodeManager = new NodesManager(this.state, this.helper, this.infoManager);
+        this.relationshipsManager = new RelationshipsManager(this.state, this.helper, this.infoManager);
 
         this.initOptions(options);
         this.initGraph(selector);
@@ -52,7 +52,7 @@ export default class Neo4jd3 {
             .html('');
 
         if (this.state.options.infoPanel) {
-            this.state.info = Info.appendInfoPanel(this.state.container);
+            this.state.info = InfoManager.appendInfoPanel(this.state.container);
         }
         this.appendGraph(this.state.container);
     }
