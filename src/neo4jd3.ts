@@ -4,34 +4,10 @@ import colors from "./colors";
 import {merge} from './utils';
 import * as math from "./math";
 import * as converters from "./converters";
+import NetworkData from "./networkData";
 
 export default class Neo4jd3 {
-    private container;
-    private info;
-
-    private node;
-    private nodes = [];
-
-    private relationship;
-    private relationshipOutline;
-    private relationshipOverlay;
-    private relationshipText;
-    private relationships = [];
-
-    private readonly simulation;
-
-    private svg;
-    private svgNodes;
-    private svgRelationships;
-    private svgScale;
-    private svgTranslate;
-
-    private classes2colors = {};
-
-    private justLoaded = false;
-    private numClasses = 0;
-
-    private listeners: Map<string, Array<(any) => void>>;
+    private state: NetworkData;
 
     private options: any = {
         arrowSize: 4,
@@ -60,11 +36,11 @@ export default class Neo4jd3 {
         this.initOptions(options);
         this.initGraph(selector);
 
-        this.simulation = this.initSimulation();
+        this.state.simulation = this.initSimulation();
 
         this.loadData();
 
-        this.listeners = new Map();
+        this.state.listeners = new Map();
     }
 
     private loadData() {
@@ -76,14 +52,14 @@ export default class Neo4jd3 {
     }
 
     private initGraph(selector: string) {
-        this.container = d3.select(selector);
-        this.container.attr('class', 'neo4jd3')
+        this.state.container = d3.select(selector);
+        this.state.container.attr('class', 'neo4jd3')
             .html('');
 
         if (this.options.infoPanel) {
-            this.info = Neo4jd3.appendInfoPanel(this.container);
+            this.state.info = Neo4jd3.appendInfoPanel(this.state.container);
         }
-        this.appendGraph(this.container);
+        this.appendGraph(this.state.container);
     }
 
     private initOptions(options: any) {
@@ -101,7 +77,7 @@ export default class Neo4jd3 {
     }
 
     private appendGraph(container) {
-        this.svg = container.append('svg')
+        this.state.svg = container.append('svg')
             .attr('width', '100%')
             .attr('height', '100%')
             .attr('class', 'neo4jd3-graph')
@@ -109,20 +85,20 @@ export default class Neo4jd3 {
                 let scale = d3.event.transform.k;
                 let translate = [d3.event.transform.x, d3.event.transform.y];
 
-                if (this.svgTranslate) {
-                    translate[0] += this.svgTranslate[0];
-                    translate[1] += this.svgTranslate[1];
+                if (this.state.svgTranslate) {
+                    translate[0] += this.state.svgTranslate[0];
+                    translate[1] += this.state.svgTranslate[1];
                 }
 
-                if (this.svgScale) {
-                    scale *= this.svgScale;
+                if (this.state.svgScale) {
+                    scale *= this.state.svgScale;
                 }
 
-                this.svg.attr('transform', `translate(${translate[0]}, ${translate[1]}) scale(${scale})`);
+                this.state.svg.attr('transform', `translate(${translate[0]}, ${translate[1]}) scale(${scale})`);
             }))
             .on('dblclick.zoom', null)
             .on('click', _ => {
-                if (this.info && d3.event.target.classList.contains('neo4jd3-graph')) {
+                if (this.state.info && d3.event.target.classList.contains('neo4jd3-graph')) {
                     this.clearInfo();
                 }
             })
@@ -130,10 +106,10 @@ export default class Neo4jd3 {
             .attr('width', '100%')
             .attr('height', '100%');
 
-        this.svgRelationships = this.svg.append('g')
+        this.state.svgRelationships = this.state.svg.append('g')
             .attr('class', 'relationships');
 
-        this.svgNodes = this.svg.append('g')
+        this.state.svgNodes = this.state.svg.append('g')
             .attr('class', 'nodes');
     }
 
@@ -182,7 +158,7 @@ export default class Neo4jd3 {
     }
 
     private appendInfoElement(cls, isNode, property, value = null) {
-        const elem = this.info.append('a');
+        const elem = this.state.info.append('a');
 
         elem.attr('href', '#')
             .attr('class', cls)
@@ -222,7 +198,7 @@ export default class Neo4jd3 {
     }
 
     private appendNode() {
-        return this.node.enter()
+        return this.state.node.enter()
             .append('g')
             .attr('class', d => {
                 let classes = 'node';
@@ -253,7 +229,7 @@ export default class Neo4jd3 {
             .on('click', d => {
                 d.fx = d.fy = null;
 
-                if (this.info) {
+                if (this.state.info) {
                     this.updateInfo(d);
                 }
 
@@ -261,8 +237,8 @@ export default class Neo4jd3 {
                     this.options.onNodeClick(d);
                 }
 
-                if (this.listeners.has('click')) {
-                    this.listeners.get('click').forEach(v => v(d));
+                if (this.state.listeners.has('click')) {
+                    this.state.listeners.get('click').forEach(v => v(d));
                 }
             })
             .on('dblclick', d => {
@@ -270,8 +246,8 @@ export default class Neo4jd3 {
                     this.options.onNodeDoubleClick(d);
                 }
 
-                if (this.listeners.has('dblclick')) {
-                    this.listeners.get('dblclick').forEach(v => v(d));
+                if (this.state.listeners.has('dblclick')) {
+                    this.state.listeners.get('dblclick').forEach(v => v(d));
                 }
             })
             .on('mouseenter', d => {
@@ -279,8 +255,8 @@ export default class Neo4jd3 {
                     this.options.onNodeMouseEnter(d);
                 }
 
-                if (this.listeners.has('mouseenter')) {
-                    this.listeners.get('mouseenter').forEach(v => v(d));
+                if (this.state.listeners.has('mouseenter')) {
+                    this.state.listeners.get('mouseenter').forEach(v => v(d));
                 }
             })
             .on('mouseleave', d => {
@@ -288,8 +264,8 @@ export default class Neo4jd3 {
                     this.options.onNodeMouseLeave(d);
                 }
 
-                if (this.listeners.has('mouseleave')) {
-                    this.listeners.get('mouseleave').forEach(v => v(d));
+                if (this.state.listeners.has('mouseleave')) {
+                    this.state.listeners.get('mouseleave').forEach(v => v(d));
                 }
             })
             .call(d3.drag()
@@ -363,7 +339,7 @@ export default class Neo4jd3 {
     }
 
     private appendRelationship() {
-        return this.relationship.enter()
+        return this.state.relationship.enter()
             .append('g')
             .attr('class', 'relationship')
             .on('dblclick', d => {
@@ -372,7 +348,7 @@ export default class Neo4jd3 {
                 }
             })
             .on('click', d => {
-                if (this.info) {
+                if (this.state.info) {
                     this.updateInfo(d);
                 }
             })
@@ -417,12 +393,12 @@ export default class Neo4jd3 {
     }
 
     private classToColor(cls) {
-        let color = this.classes2colors[cls];
+        let color = this.state.classes2colors[cls];
 
         if (!color) {
-            color = this.options.colors[this.numClasses % this.options.colors.length];
-            this.classes2colors[cls] = color;
-            this.numClasses++;
+            color = this.options.colors[this.state.numClasses % this.options.colors.length];
+            this.state.classes2colors[cls] = color;
+            this.state.numClasses++;
         }
 
         return color;
@@ -433,7 +409,7 @@ export default class Neo4jd3 {
     }
 
     private clearInfo() {
-        this.info.html('');
+        this.state.info.html('');
     }
 
     private defaultColor() {
@@ -445,8 +421,8 @@ export default class Neo4jd3 {
     }
 
     disableForces() {
-        if (this.simulation) {
-            this.simulation
+        if (this.state.simulation) {
+            this.state.simulation
                 .force('collide', null)
                 .force('charge', null)
                 .force('link', null)
@@ -456,7 +432,7 @@ export default class Neo4jd3 {
 
     private dragEnded(d) {
         if (!d3.event.active) {
-            this.simulation.alphaTarget(0);
+            this.state.simulation.alphaTarget(0);
         }
 
         if (typeof this.options.onNodeDragEnd === 'function') {
@@ -470,7 +446,7 @@ export default class Neo4jd3 {
 
     private dragStarted(d) {
         if (!d3.event.active) {
-            this.simulation.alphaTarget(0.3).restart();
+            this.state.simulation.alphaTarget(0.3).restart();
         }
 
         d.fx = d.x;
@@ -566,30 +542,30 @@ export default class Neo4jd3 {
             .force('charge', d3.forceManyBody())
             .force('link', d3.forceLink().id(d => (d as any).id))
             .force('center', d3.forceCenter(
-                this.svg.node().parentElement.parentElement.clientWidth / 2,
-                this.svg.node().parentElement.parentElement.clientHeight / 2
+                this.state.svg.node().parentElement.parentElement.clientWidth / 2,
+                this.state.svg.node().parentElement.parentElement.clientHeight / 2
             ))
             .on('tick', () => {
                 this.tick();
             })
             .on('end', () => {
-                if (this.options.zoomFit && !this.justLoaded) {
-                    this.justLoaded = true;
+                if (this.options.zoomFit && !this.state.justLoaded) {
+                    this.state.justLoaded = true;
                     this.zoomFit();
                 }
             });
     }
 
     private loadNeo4jData() {
-        this.nodes = [];
-        this.relationships = [];
+        this.state.nodes = [];
+        this.state.relationships = [];
 
         this.updateWithNeo4jData(this.options.neo4jData);
     }
 
     private loadNeo4jDataFromUrl(neo4jDataUrl) {
-        this.nodes = [];
-        this.relationships = [];
+        this.state.nodes = [];
+        this.state.relationships = [];
 
         d3.json(neo4jDataUrl).then(data => {
             this.updateWithNeo4jData(data);
@@ -601,11 +577,11 @@ export default class Neo4jd3 {
     }
 
     on(eventType: string, listener: (any) => void): this {
-        if (!this.listeners.has(eventType)) {
-            this.listeners.set(eventType, []);
+        if (!this.state.listeners.has(eventType)) {
+            this.state.listeners.set(eventType, []);
         }
 
-        this.listeners.get(eventType).push(listener);
+        this.state.listeners.get(eventType).push(listener);
 
         return this;
     }
@@ -621,8 +597,8 @@ export default class Neo4jd3 {
 
     size() {
         return {
-            nodes: this.nodes.length,
-            relationships: this.relationships.length
+            nodes: this.state.nodes.length,
+            relationships: this.state.relationships.length
         };
     }
 
@@ -637,14 +613,14 @@ export default class Neo4jd3 {
     }
 
     private tickNodes() {
-        if (this.node) {
-            this.node.attr('transform', d => `translate(${d.x}, ${d.y})`);
+        if (this.state.node) {
+            this.state.node.attr('transform', d => `translate(${d.x}, ${d.y})`);
         }
     }
 
     private tickRelationships() {
-        if (this.relationship) {
-            this.relationship.attr('transform', d => {
+        if (this.state.relationship) {
+            this.state.relationship.attr('transform', d => {
                 const angle = math.rotation(d.source, d.target);
                 return `translate(${d.source.x}, ${d.source.y}) rotate(${angle})`;
             });
@@ -658,7 +634,7 @@ export default class Neo4jd3 {
     private tickRelationshipsOutlines() {
         let network = this;
 
-        this.relationship.each(function () {
+        this.state.relationship.each(function () {
             let rel = d3.select(this),
                 outline = rel.select('.outline'),
                 text = rel.select('.text');
@@ -730,7 +706,7 @@ export default class Neo4jd3 {
     }
 
     private tickRelationshipsOverlays() {
-        this.relationshipOverlay.attr('d', d => {
+        this.state.relationshipOverlay.attr('d', d => {
             let center = {x: 0, y: 0},
                 angle = math.rotation(d.source, d.target),
                 n1 = math.unitaryNormalVector(d.source, d.target),
@@ -755,7 +731,7 @@ export default class Neo4jd3 {
     }
 
     private tickRelationshipsTexts() {
-        this.relationshipText.attr('transform', d => {
+        this.state.relationshipText.attr('transform', d => {
             const angle = (math.rotation(d.source, d.target) + 360) % 360;
             const mirror = angle > 90 && angle < 270;
             const center = {x: 0, y: 0};
@@ -813,47 +789,47 @@ export default class Neo4jd3 {
     }
 
     private updateNodes(n) {
-        Array.prototype.push.apply(this.nodes, n);
+        Array.prototype.push.apply(this.state.nodes, n);
 
-        this.node = this.svgNodes.selectAll('.node')
-            .data(this.nodes, d => d.id);
+        this.state.node = this.state.svgNodes.selectAll('.node')
+            .data(this.state.nodes, d => d.id);
         const nodeEnter = this.appendNodeToGraph();
-        this.node = nodeEnter.merge(this.node);
+        this.state.node = nodeEnter.merge(this.state.node);
     }
 
     private updateNodesAndRelationships(n, r) {
         this.updateRelationships(r);
         this.updateNodes(n);
 
-        this.simulation.nodes(this.nodes);
-        this.simulation.force('link').links(this.relationships);
+        this.state.simulation.nodes(this.state.nodes);
+        this.state.simulation.force('link').links(this.state.relationships);
     }
 
     private updateRelationships(r) {
-        Array.prototype.push.apply(this.relationships, r);
+        Array.prototype.push.apply(this.state.relationships, r);
 
-        this.relationship = this.svgRelationships.selectAll('.relationship')
-            .data(this.relationships, d => {
+        this.state.relationship = this.state.svgRelationships.selectAll('.relationship')
+            .data(this.state.relationships, d => {
                 return d.id;
             });
 
         const relationshipEnter = this.appendRelationshipToGraph();
 
-        this.relationship = relationshipEnter.relationship.merge(this.relationship);
+        this.state.relationship = relationshipEnter.relationship.merge(this.state.relationship);
 
-        this.relationshipOutline = this.svg.selectAll('.relationship .outline');
-        this.relationshipOutline = relationshipEnter.outline.merge(this.relationshipOutline);
+        this.state.relationshipOutline = this.state.svg.selectAll('.relationship .outline');
+        this.state.relationshipOutline = relationshipEnter.outline.merge(this.state.relationshipOutline);
 
-        this.relationshipOverlay = this.svg.selectAll('.relationship .overlay');
-        this.relationshipOverlay = relationshipEnter.overlay.merge(this.relationshipOverlay);
+        this.state.relationshipOverlay = this.state.svg.selectAll('.relationship .overlay');
+        this.state.relationshipOverlay = relationshipEnter.overlay.merge(this.state.relationshipOverlay);
 
-        this.relationshipText = this.svg.selectAll('.relationship .text');
-        this.relationshipText = relationshipEnter.text.merge(this.relationshipText);
+        this.state.relationshipText = this.state.svg.selectAll('.relationship .text');
+        this.state.relationshipText = relationshipEnter.text.merge(this.state.relationshipText);
     }
 
     private zoomFit() {
-        const bounds = this.svg.node().getBBox();
-        const parent = this.svg.node().parentElement.parentElement;
+        const bounds = this.state.svg.node().getBBox();
+        const parent = this.state.svg.node().parentElement.parentElement;
         const fullWidth = parent.clientWidth;
         const fullHeight = parent.clientHeight;
         const width = bounds.width;
@@ -865,9 +841,9 @@ export default class Neo4jd3 {
             return; // nothing to fit
         }
 
-        this.svgScale = 0.85 / Math.max(width / fullWidth, height / fullHeight);
-        this.svgTranslate = [fullWidth / 2 - this.svgScale * midX, fullHeight / 2 - this.svgScale * midY];
+        this.state.svgScale = 0.85 / Math.max(width / fullWidth, height / fullHeight);
+        this.state.svgTranslate = [fullWidth / 2 - this.state.svgScale * midX, fullHeight / 2 - this.state.svgScale * midY];
 
-        this.svg.attr('transform', `translate(${this.svgTranslate[0]}, ${this.svgTranslate[1]}) scale(${this.svgScale})`);
+        this.state.svg.attr('transform', `translate(${this.state.svgTranslate[0]}, ${this.state.svgTranslate[1]}) scale(${this.state.svgScale})`);
     }
 }
