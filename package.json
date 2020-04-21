@@ -1,6 +1,6 @@
 {
   "name": "@stackeer-io/neo4jd3.ts",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "Neo4jD3.ts",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
