@@ -1,7 +1,7 @@
-import colors from "./colors";
-import fontAwesomeIcons from "./icons";
+import colors from "../../data/colors";
+import fontAwesomeIcons from "../../data/icons";
 
-export default class NetworkData {
+export default class NetworkState {
     container;
     info;
 

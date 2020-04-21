@@ -1,11 +1,11 @@
-import NetworkData from "./networkData";
-import StatefulHelper from "./helper";
+import NetworkState from "../state";
+import StatefulHelper from "./statefulHelper";
 
-export default class InfoManager {
-    private readonly state: NetworkData;
+export default class Info {
+    private readonly state: NetworkState;
     private readonly helper: StatefulHelper;
 
-    constructor(state: NetworkData, helper: StatefulHelper) {
+    constructor(state: NetworkState, helper: StatefulHelper) {
         this.state = state;
         this.helper = helper;
     }

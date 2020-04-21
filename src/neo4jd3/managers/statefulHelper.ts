@@ -1,10 +1,10 @@
 import * as d3 from "d3";
-import NetworkData from "./networkData";
+import NetworkState from "../state";
 
 export default class StatefulHelper {
-    private readonly state: NetworkData;
+    private readonly state: NetworkState;
 
-    constructor(state: NetworkData) {
+    constructor(state: NetworkState) {
         this.state = state;
     }
 

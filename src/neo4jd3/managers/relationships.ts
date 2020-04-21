@@ -1,13 +1,13 @@
-import NetworkData from "./networkData";
-import InfoManager from "./info";
-import StatefulHelper from "./helper";
+import NetworkState from "../state";
+import Info from "./info";
+import StatefulHelper from "./statefulHelper";
 
-export default class RelationshipsManager {
-    private readonly state: NetworkData;
+export default class Relationships {
+    private readonly state: NetworkState;
     private readonly helper: StatefulHelper;
-    private readonly infoManager: InfoManager;
+    private readonly infoManager: Info;
 
-    constructor(state: NetworkData, helper: StatefulHelper, infoManager: InfoManager) {
+    constructor(state: NetworkState, helper: StatefulHelper, infoManager: Info) {
         this.state = state;
         this.helper = helper;
         this.infoManager = infoManager;
@@ -53,9 +53,9 @@ export default class RelationshipsManager {
 
     private appendRelationshipToGraph() {
         const relationship = this.appendRelationship();
-        const text = RelationshipsManager.appendTextToRelationship(relationship);
-        const outline = RelationshipsManager.appendOutlineToRelationship(relationship);
-        const overlay = RelationshipsManager.appendOverlayToRelationship(relationship);
+        const text = Relationships.appendTextToRelationship(relationship);
+        const outline = Relationships.appendOutlineToRelationship(relationship);
+        const overlay = Relationships.appendOverlayToRelationship(relationship);
 
         return {
             outline: outline,

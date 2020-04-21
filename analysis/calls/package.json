@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "run": "node ./index.js ../../src/neo4jd3.ts out/neo4jd3_calls.gv",
+    "run": "node ./index.js ../../src/neo4jd3/neo4jd3.ts out/neo4jd3_calls.gv",
     "create_svg": "dot -Tsvg out/neo4jd3_calls.gv -o out/neo4jd3_calls.svg",
     "create_png": "dot -Tpng out/neo4jd3_calls.gv -o out/neo4jd3_calls.png"
   },

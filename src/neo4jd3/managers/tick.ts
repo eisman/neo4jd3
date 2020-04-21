@@ -1,11 +1,11 @@
-import NetworkData from "./networkData";
-import * as math from "./math";
+import NetworkState from "../state";
+import * as math from "../../math";
 import * as d3 from "d3";
 
-export default class Ticker {
-    private readonly state: NetworkData;
+export default class TickerManager {
+    private readonly state: NetworkState;
 
-    constructor(state: NetworkData) {
+    constructor(state: NetworkState) {
         this.state = state;
     }
 

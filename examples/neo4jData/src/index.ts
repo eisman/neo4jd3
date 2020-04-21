@@ -1,4 +1,4 @@
-import Neo4jd3 from "../../../src/neo4jd3";
+import Neo4jd3 from "../../../src/neo4jd3/neo4jd3";
 import data from "./data";
 
 function init() {

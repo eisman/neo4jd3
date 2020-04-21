@@ -1,21 +1,21 @@
 import * as d3 from 'd3';
-import {merge} from './utils';
-import * as converters from "./converters";
-import NetworkData from "./networkData";
-import Ticker from "./ticker";
-import StatefulHelper from "./helper";
-import NodeManager from './nodes';
-import InfoManager from "./info";
-import RelationshipsManager from "./relationships";
+import {merge} from '../utils';
+import * as converters from "../converters";
+import NetworkState from "./state";
+import TickerManager from "./managers/tick";
+import StatefulHelper from "./managers/statefulHelper";
+import Nodes from './managers/nodes';
+import Info from "./managers/info";
+import Relationships from "./managers/relationships";
 
 export default class Neo4jd3 {
-    private readonly state: NetworkData;
+    private readonly state: NetworkState;
 
-    private readonly ticker: Ticker;
+    private readonly ticker: TickerManager;
     private readonly helper: StatefulHelper;
-    private readonly nodeManager: NodeManager;
-    private readonly infoManager: InfoManager;
-    private readonly relationshipsManager: RelationshipsManager;
+    private readonly nodeManager: Nodes;
+    private readonly infoManager: Info;
+    private readonly relationshipsManager: Relationships;
 
     readonly VERSION = '0.01';
 
@@ -23,11 +23,11 @@ export default class Neo4jd3 {
         this.initOptions(options);
         this.initGraph(selector);
 
-        this.ticker = new Ticker(this.state);
+        this.ticker = new TickerManager(this.state);
         this.helper = new StatefulHelper(this.state);
-        this.infoManager = new InfoManager(this.state, this.helper);
-        this.nodeManager = new NodeManager(this.state, this.helper, this.infoManager);
-        this.relationshipsManager = new RelationshipsManager(this.state, this.helper, this.infoManager);
+        this.infoManager = new Info(this.state, this.helper);
+        this.nodeManager = new Nodes(this.state, this.helper, this.infoManager);
+        this.relationshipsManager = new Relationships(this.state, this.helper, this.infoManager);
 
         this.state.simulation = this.initSimulation();
 
@@ -50,7 +50,7 @@ export default class Neo4jd3 {
             .html('');
 
         if (this.state.options.infoPanel) {
-            this.state.info = InfoManager.appendInfoPanel(this.state.container);
+            this.state.info = Info.appendInfoPanel(this.state.container);
         }
         this.appendGraph(this.state.container);
     }

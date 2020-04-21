@@ -1,4 +1,4 @@
-import {contains} from "./utils";
+import {contains} from "../utils";
 
 export function neo4jDataToD3Data(data) {
     const graph = {
