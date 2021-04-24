@@ -6,7 +6,7 @@
 
 ## Features
 
-* Compaptible with the [Neo4j data format](#neo4j-data-format) and the [D3.js data format](#d3js-data-format).
+* Compatible with the [Neo4j data format](#neo4j-data-format) and the [D3.js data format](#d3js-data-format).
 * Force simulation.
 * Info panel that shows nodes and relationships information on hover.
 * Double click callbacks.
